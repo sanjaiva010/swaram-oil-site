@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swaram — Cold-Pressed Chekku Oils</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: '#F6F1E2', creamtwo: '#EFE7D2', ink: '#211C13',
+          olive: '#37402A', olivedark: '#262D1B', gold: '#C6963C',
+          goldlight: '#E7C978', rust: '#A6552A', card: '#FCFAF3'
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-cream text-ink">
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="images/logo.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
+      <div class="leading-tight">
+        <div class="font-display text-lg tracking-wide">SWARAM</div>
+        <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/80">
+      <a href="index.html" class="text-ink">Home</a>
+      <a href="#range" class="hover:text-rust transition-colors">Our Oils</a>
+      <a href="#story" class="hover:text-rust transition-colors">The Chekku Method</a>
+      <a href="product.html" class="hover:text-rust transition-colors">Shop</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <button aria-label="Search" class="text-ink/70 hover:text-ink">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <button aria-label="Cart" class="relative text-ink/70 hover:text-ink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
+        <span class="absolute -top-2 -right-2 bg-rust text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="max-w-7xl mx-auto px-6 pt-14 pb-8">
+  <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+    <div class="rise">
+      <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-4">வாகை மரச்செக்கு · WOOD-PRESSED</p>
+      <h1 class="font-display text-5xl md:text-6xl leading-[1.05] mb-2">
+        Cooking Oil<br>
+        <span class="text-olive">in Cold-Pressed</span><br>
+        Purity <span class="text-rust">→</span>
+      </h1>
+      <div class="flex items-center gap-6 mt-8">
+        <a href="product.html" class="bg-ink text-cream px-7 py-3.5 rounded-full font-medium inline-flex items-center gap-2 hover:bg-olivedark transition-colors">
+          Add to Cart
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div>
+          <div class="font-display text-2xl leading-none">₹ <span class="text-lg align-top">—</span></div>
+          <div class="text-ink/50 text-xs tracking-wide mt-1">GROUNDNUT · 1 LITRE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product card grid, mirrors reference: big card + 2 side cards -->
+    <div class="relative">
+      <div class="absolute -top-2 right-4 w-20 h-20 press-mark rounded-full flex items-center justify-center bg-cream spin-slow z-10">
+        <span class="font-display text-[9px] text-center leading-tight text-olive px-2">COLD PRESSED · PURE</span>
+      </div>
+      <div class="grid grid-cols-3 gap-4 items-end">
+        <div class="col-span-2 rounded-3xl p-6 relative overflow-hidden" style="background: radial-gradient(120% 100% at 50% 20%, #F3E3B4 0%, #E7C978 55%, #C6963C 100%);">
+          <div class="pedestal">
+            <img src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="h-64 mx-auto bottle-shadow">
+          </div>
+          <div class="mt-4">
+            <h3 class="font-display text-lg underline decoration-olive/40 underline-offset-4">Groundnut Oil</h3>
+            <div class="flex items-center justify-between mt-1">
+              <span class="font-semibold">₹ — <span class="font-normal text-xs text-ink/50">Available in 3 sizes</span></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="bg-olive/15 rounded-3xl p-3 h-[130px] flex items-center justify-center">
+            <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="h-24 bottle-shadow">
+          </div>
+          <div class="bg-rust/10 rounded-3xl p-3 h-[130px] flex items-center justify-center">
+            <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly oil bottle" class="h-24 bottle-shadow">
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-center gap-4 mt-5 text-sm text-ink/60">
+        <button aria-label="Previous">←</button>
+        <span><span class="text-rust font-semibold">1</span> / 3</span>
+        <button aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom row: testimonial card + thumbnails + rating, mirrors reference -->
+  <div class="grid md:grid-cols-[1.1fr_2fr_0.7fr] gap-5 items-stretch">
+    <div class="bg-olive text-cream rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden min-h-[190px]">
+      <div class="text-goldlight text-sm">★★★★★</div>
+      <p class="font-display text-lg leading-snug mt-2">Pressed fresh for<br>every festive kitchen<br>this season →</p>
+      <div class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-cream/90 flex items-center justify-center">
+        <div class="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[9px] border-l-olive ml-0.5"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col">
+        <div class="bg-goldlight/30 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/groundnut-500ml.jpeg" class="h-24" alt="Groundnut oil 500ml"></div>
+        <div class="text-sm font-semibold">₹ —</div>
+        <div class="text-xs text-ink/50">Groundnut 500ML</div>
+      </div>
+      <div class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col">
+        <div class="bg-olive/10 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/coconut-500ml.jpeg" class="h-24" alt="Coconut oil 500ml"></div>
+        <div class="text-sm font-semibold">₹ —</div>
+        <div class="text-xs text-ink/50">Coconut 500ML</div>
+      </div>
+      <div class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col">
+        <div class="bg-rust/10 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/gingelly-500ml.jpeg" class="h-24" alt="Gingelly oil 500ml"></div>
+        <div class="text-sm font-semibold">₹ —</div>
+        <div class="text-xs text-ink/50">Gingelly 500ML</div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center bg-card border border-ink/10 rounded-3xl p-4">
+      <div class="font-display text-4xl text-rust">4.8</div>
+      <div class="text-ink/50 text-xs mt-1">62 Reviews</div>
+      <div class="text-gold text-sm mt-1">★★★★★</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="bg-olive text-cream">
+  <div class="max-w-7xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+    <div class="flex items-center gap-3"><span class="text-goldlight">●</span> 100% Natural, no additives</div>
+    <div class="flex items-center gap-3"><span class="text-goldlight">●</span> Traditional wood chekku press</div>
+    <div class="flex items-center gap-3"><span class="text-goldlight">●</span> FSSAI Certified</div>
+    <div class="flex items-center gap-3"><span class="text-goldlight">●</span> Export quality</div>
+  </div>
+</section>
+
+<!-- RANGE -->
+<section id="range" class="max-w-7xl mx-auto px-6 py-24">
+  <div class="flex items-end justify-between mb-12">
+    <div>
+      <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">OUR RANGE</p>
+      <h2 class="font-display text-4xl">Three oils, one method</h2>
+    </div>
+    <a href="product.html" class="hidden md:inline text-sm font-medium text-ink/70 hover:text-rust">View all sizes →</a>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Groundnut -->
+    <a href="product.html?oil=groundnut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
+      <div class="bg-goldlight/30 h-64 flex items-center justify-center">
+        <img src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="h-52 bottle-shadow group-hover:-translate-y-1 transition-transform">
+      </div>
+      <div class="p-6">
+        <h3 class="font-display text-xl mb-1">Groundnut Oil</h3>
+        <p class="text-ink/60 text-sm mb-4">கடலை எண்ணெய் · Rich, nutty, everyday cooking</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-ink/50">500ML · 1L · 5L</span>
+          <span class="font-semibold">From ₹—</span>
+        </div>
+      </div>
+    </a>
+    <!-- Coconut -->
+    <a href="product.html?oil=coconut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
+      <div class="bg-olive/10 h-64 flex items-center justify-center">
+        <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="h-52 bottle-shadow group-hover:-translate-y-1 transition-transform">
+      </div>
+      <div class="p-6">
+        <h3 class="font-display text-xl mb-1">Coconut Oil</h3>
+        <p class="text-ink/60 text-sm mb-4">தேங்காய் எண்ணெய் · Sulphur-free, light aroma</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-ink/50">500ML · 1L · 5L</span>
+          <span class="font-semibold">From ₹—</span>
+        </div>
+      </div>
+    </a>
+    <!-- Gingelly -->
+    <a href="product.html?oil=gingelly" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
+      <div class="bg-rust/10 h-64 flex items-center justify-center">
+        <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly sesame oil bottle" class="h-52 bottle-shadow group-hover:-translate-y-1 transition-transform">
+      </div>
+      <div class="p-6">
+        <h3 class="font-display text-xl mb-1">Gingelly Oil</h3>
+        <p class="text-ink/60 text-sm mb-4">நல்லெண்ணெய் · Deep, roasted sesame notes</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-ink/50">500ML · 1L · 5L</span>
+          <span class="font-semibold">From ₹—</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="bg-creamtwo">
+  <div class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-14 items-center">
+    <div class="order-2 md:order-1">
+      <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">THE CHEKKU METHOD</p>
+      <h2 class="font-display text-4xl mb-6 leading-tight">Pressed the way it's<br>always been done</h2>
+      <p class="text-ink/70 leading-relaxed mb-6">
+        Marachekku is a wood-and-stone press that crushes oilseeds slowly, at room temperature. No heat, no chemical solvents — just friction and time, the way it's been done in Tamil Nadu for generations. It takes longer. It's why the oil tastes like something.
+      </p>
+      <div class="grid grid-cols-3 gap-4 text-sm">
+        <div class="border-l-2 border-gold pl-3">
+          <div class="font-display text-2xl">0°</div>
+          <div class="text-ink/60">Heat added</div>
+        </div>
+        <div class="border-l-2 border-gold pl-3">
+          <div class="font-display text-2xl">6mo</div>
+          <div class="text-ink/60">Shelf life</div>
+        </div>
+        <div class="border-l-2 border-gold pl-3">
+          <div class="font-display text-2xl">100%</div>
+          <div class="text-ink/60">Natural</div>
+        </div>
+      </div>
+    </div>
+    <div class="order-1 md:order-2 flex justify-center">
+      <img src="images/groundnut-5l.jpeg" alt="Swaram 5 litre groundnut oil bottle" class="h-96 bottle-shadow rounded-2xl object-cover">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-olivedark text-cream/80">
+  <div class="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
+    <div>
+      <div class="font-display text-lg text-cream mb-3">SWARAM</div>
+      <p class="text-sm leading-relaxed max-w-xs">Swaram Agro Products, Palavanjipalayam, Veerapandi, Tirupur - 641605. Customer Care: 97870 34468</p>
+    </div>
+    <div class="text-sm">
+      <div class="text-cream mb-3 font-medium">Shop</div>
+      <ul class="space-y-2">
+        <li><a href="product.html?oil=groundnut" class="hover:text-gold">Groundnut Oil</a></li>
+        <li><a href="product.html?oil=coconut" class="hover:text-gold">Coconut Oil</a></li>
+        <li><a href="product.html?oil=gingelly" class="hover:text-gold">Gingelly Oil</a></li>
+      </ul>
+    </div>
+    <div class="text-sm">
+      <div class="text-cream mb-3 font-medium">Trust</div>
+      <ul class="space-y-2">
+        <li>FSSAI: 22419589000684</li>
+        <li>100% Natural Products</li>
+        <li>Export Quality</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-cream/10 text-xs text-cream/50 py-5 text-center">© 2026 Swaram Agro Products. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
