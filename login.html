@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 <script>
   tailwind.config = {
     theme: { extend: { colors: {
@@ -85,22 +87,27 @@
 <footer class="text-xs text-ink/40 text-center py-6">© 2026 Swaram Agro Products.</footer>
 
 <script>
-  // ---- FRONT-END DEMO ONLY ----
-  // This UI is ready to connect to Firebase Auth (Google provider + Email OTP/link)
-  // or Supabase Auth. Real sign-in requires a free Firebase/Supabase project and
-  // its config keys — nothing here sends real emails or verifies real accounts yet.
+  // ---- Real Supabase auth wiring ----
+  // Requires supabase-client.js to have your project URL + anon key filled in,
+  // and Google + Email providers enabled in Supabase: Authentication → Providers.
 
-  document.getElementById('googleBtn').addEventListener('click', () => {
-    alert('Connect this button to Firebase/Supabase Google Auth to make it functional.');
+  document.getElementById('googleBtn').addEventListener('click', async () => {
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/account.html' }
+    });
+    if (error) alert('Google sign-in error: ' + error.message);
   });
 
-  document.getElementById('emailForm').addEventListener('submit', (e) => {
+  document.getElementById('emailForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('emailInput').value;
+    const { error } = await supabaseClient.auth.signInWithOtp({ email });
+    if (error) { alert('Could not send OTP: ' + error.message); return; }
     document.getElementById('otpEmailShown').textContent = email;
     document.getElementById('emailForm').classList.add('hidden');
     document.getElementById('otpForm').classList.remove('hidden');
-    // Real flow: call your backend here to actually send an OTP email.
+    document.getElementById('otpForm').dataset.email = email;
   });
 
   document.getElementById('backBtn').addEventListener('click', () => {
@@ -108,9 +115,13 @@
     document.getElementById('emailForm').classList.remove('hidden');
   });
 
-  document.getElementById('otpForm').addEventListener('submit', (e) => {
+  document.getElementById('otpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Connect this to your backend to verify the real OTP, then redirect to the account page.');
+    const email = e.target.dataset.email;
+    const token = document.getElementById('otpInput').value;
+    const { error } = await supabaseClient.auth.verifyOtp({ email, token, type: 'email' });
+    if (error) { alert('Invalid code: ' + error.message); return; }
+    window.location.href = 'account.html';
   });
 </script>
 
