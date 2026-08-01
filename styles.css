@@ -1,0 +1,108 @@
+:root {
+  --cream: #F6F1E2;
+  --cream-2: #EFE7D2;
+  --ink: #211C13;
+  --olive: #37402A;
+  --olive-dark: #262D1B;
+  --gold: #C6963C;
+  --gold-light: #E7C978;
+  --rust: #A6552A;
+  --card: #FCFAF3;
+  --line: rgba(33,28,19,0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+  font-optical-sizing: auto;
+}
+
+.press-mark {
+  /* signature motif: concentric ring evoking the wooden chekku press wheel */
+  border: 1.5px solid var(--gold);
+  position: relative;
+}
+.press-mark::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed var(--gold);
+  border-radius: inherit;
+}
+
+.spin-slow {
+  animation: spin 22s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(.22,.68,0,1.01) both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-slow, .rise { animation: none !important; }
+}
+
+.bottle-shadow {
+  filter: drop-shadow(0 30px 40px rgba(38,45,27,0.28));
+}
+
+.drop {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  opacity: 0.7;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-20px) rotate(45deg); opacity: 0; }
+  15% { opacity: 0.8; }
+  100% { transform: translateY(220px) rotate(45deg); opacity: 0; }
+}
+@keyframes countPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.count-pulse { animation: countPulse 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-slow, .rise, .drop, .count-pulse { animation: none !important; }
+}
+
+.pedestal {
+  position: relative;
+}
+.pedestal::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6%;
+  width: 62%;
+  height: 14%;
+  background: radial-gradient(ellipse at center, rgba(33,28,19,0.22) 0%, rgba(33,28,19,0) 72%);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+.pedestal img { position: relative; z-index: 1; }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}

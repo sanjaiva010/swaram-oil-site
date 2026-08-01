@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swaram — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { colors: {
+      cream: '#F6F1E2', creamtwo: '#EFE7D2', ink: '#211C13',
+      olive: '#37402A', olivedark: '#262D1B', gold: '#C6963C',
+      goldlight: '#E7C978', rust: '#A6552A', card: '#FCFAF3'
+    }}}
+  }
+</script>
+</head>
+<body class="bg-cream text-ink min-h-screen flex flex-col">
+
+<header class="bg-cream/90 border-b border-ink/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="images/logo.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
+      <div class="leading-tight">
+        <div class="font-display text-lg tracking-wide">SWARAM</div>
+        <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
+      </div>
+    </a>
+    <a href="index.html" class="text-sm font-medium text-ink/70 hover:text-rust">← Back to shop</a>
+  </div>
+</header>
+
+<main class="flex-1 flex items-center justify-center px-6 py-16">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-8">
+      <div class="w-14 h-14 rounded-full bg-olive/10 flex items-center justify-center mx-auto mb-4">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#37402A" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h1 class="font-display text-3xl mb-2">Welcome back</h1>
+      <p class="text-ink/60 text-sm">Sign in to track orders and reorder your favourites.</p>
+    </div>
+
+    <!-- Google Sign-In -->
+    <button id="googleBtn" class="w-full border border-ink/20 rounded-full py-3.5 flex items-center justify-center gap-3 font-medium hover:border-olive transition-colors mb-4 bg-card">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.4H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.7z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.4 21.4 7.4 24 12 24z"/><path fill="#FBBC05" d="M5.4 14.3c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V6.6H1.4A12 12 0 000 12c0 1.9.5 3.8 1.4 5.4l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.7l3.4-3.4C17.9 1.2 15.2 0 12 0 7.4 0 3.4 2.6 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="flex items-center gap-3 my-6">
+      <div class="flex-1 h-px bg-ink/10"></div>
+      <span class="text-xs text-ink/40">OR</span>
+      <div class="flex-1 h-px bg-ink/10"></div>
+    </div>
+
+    <!-- Email OTP flow -->
+    <form id="emailForm">
+      <label class="text-sm font-medium block mb-2">Email address</label>
+      <input type="email" id="emailInput" required placeholder="you@example.com"
+        class="w-full border border-ink/20 rounded-full px-5 py-3.5 mb-4 bg-card focus:border-olive outline-none">
+      <button type="submit" id="sendOtpBtn" class="w-full bg-olive text-cream py-3.5 rounded-full font-medium hover:bg-olivedark transition-colors">
+        Send OTP
+      </button>
+    </form>
+
+    <!-- OTP step (hidden until email submitted) -->
+    <form id="otpForm" class="hidden">
+      <p class="text-sm text-ink/60 mb-4">Enter the 6-digit code sent to <span id="otpEmailShown" class="font-medium text-ink"></span></p>
+      <input type="text" maxlength="6" id="otpInput" placeholder="000000"
+        class="w-full border border-ink/20 rounded-full px-5 py-3.5 mb-4 bg-card text-center tracking-[0.5em] font-medium focus:border-olive outline-none">
+      <button type="submit" class="w-full bg-olive text-cream py-3.5 rounded-full font-medium hover:bg-olivedark transition-colors mb-3">
+        Verify &amp; Sign In
+      </button>
+      <button type="button" id="backBtn" class="w-full text-sm text-ink/50 hover:text-rust py-2">← Use a different email</button>
+    </form>
+
+    <p class="text-center text-xs text-ink/40 mt-8">
+      By continuing you agree to Swaram's Terms &amp; Privacy Policy.
+    </p>
+  </div>
+</main>
+
+<footer class="text-xs text-ink/40 text-center py-6">© 2026 Swaram Agro Products.</footer>
+
+<script>
+  // ---- Real Supabase auth wiring ----
+  // Requires supabase-client.js to have your project URL + anon key filled in,
+  // and Google + Email providers enabled in Supabase: Authentication → Providers.
+
+  document.getElementById('googleBtn').addEventListener('click', async () => {
+    // Resolves relative to the deployed site, preserving a GitHub Pages
+    // repository path such as /swaram-oil-site/.
+    const redirectTo = new URL('account.html', window.location.href).href;
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo }
+    });
+    if (error) alert('Google sign-in error: ' + error.message);
+  });
+
+  document.getElementById('emailForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value;
+    const emailRedirectTo = new URL('account.html', window.location.href).href;
+    const { error } = await supabaseClient.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo }
+    });
+    if (error) { alert('Could not send OTP: ' + error.message); return; }
+    document.getElementById('otpEmailShown').textContent = email;
+    document.getElementById('emailForm').classList.add('hidden');
+    document.getElementById('otpForm').classList.remove('hidden');
+    document.getElementById('otpForm').dataset.email = email;
+  });
+
+  document.getElementById('backBtn').addEventListener('click', () => {
+    document.getElementById('otpForm').classList.add('hidden');
+    document.getElementById('emailForm').classList.remove('hidden');
+  });
+
+  document.getElementById('otpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = e.target.dataset.email;
+    const token = document.getElementById('otpInput').value;
+    const { error } = await supabaseClient.auth.verifyOtp({ email, token, type: 'email' });
+    if (error) { alert('Invalid code: ' + error.message); return; }
+    window.location.href = new URL('account.html', window.location.href).href;
+  });
+</script>
+
+</body>
+</html>
