@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swaram — Shop Cold-Pressed Oils</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+<script>
+  tailwind.config = {
+    theme: { extend: { colors: {
+      cream: '#F6F1E2', creamtwo: '#EFE7D2', ink: '#211C13',
+      olive: '#37402A', olivedark: '#262D1B', gold: '#C6963C',
+      goldlight: '#E7C978', rust: '#A6552A', card: '#FCFAF3'
+    }}}
+  }
+</script>
+<script src="assets.js"></script>
+</head>
+<body class="bg-cream text-ink">
+
+<header class="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="images/logo.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
+      <div class="leading-tight">
+        <div class="font-display text-lg tracking-wide">SWARAM</div>
+        <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/80">
+      <a href="index.html" class="hover:text-rust transition-colors">Home</a>
+      <a href="index.html#range" class="hover:text-rust transition-colors">Our Oils</a>
+      <a href="index.html#story" class="hover:text-rust transition-colors">The Chekku Method</a>
+      <a href="product.html" class="text-ink">Shop</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href="login.html" class="text-sm font-medium text-ink/70 hover:text-rust hidden sm:inline">Login</a>
+      <a href="cart.html" aria-label="Cart" class="relative text-ink/70 hover:text-ink">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
+      <span class="cart-badge absolute -top-2 -right-2 bg-rust text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+    </a>
+  </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-6 pt-6 text-sm text-ink/50">
+  <a href="index.html" class="hover:text-rust">Home</a> / <span id="crumbOil">Groundnut Oil</span>
+</div>
+
+<!-- PRODUCT -->
+<section class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-2 gap-14">
+
+  <!-- Gallery -->
+  <div>
+    <div class="rounded-3xl h-[420px] flex items-center justify-center mb-4 pedestal" style="background: radial-gradient(120% 100% at 50% 15%, #FCFAF3 0%, #EFE7D2 55%, #E7C978 100%);">
+      <img id="mainImage" src="images/groundnut-1l.jpeg" alt="Swaram oil bottle" class="h-80 bottle-shadow rise" style="animation-duration:.4s">
+    </div>
+    <div class="flex gap-3">
+      <button class="oil-thumb rounded-xl border-2 border-olive p-2 bg-card" data-oil="groundnut">
+        <img src="images/groundnut-1l.jpeg" class="h-16 mx-auto" alt="Groundnut oil">
+      </button>
+      <button class="oil-thumb rounded-xl border-2 border-transparent p-2 bg-card" data-oil="coconut">
+        <img src="images/coconut-1l.jpeg" class="h-16 mx-auto" alt="Coconut oil">
+      </button>
+      <button class="oil-thumb rounded-xl border-2 border-transparent p-2 bg-card" data-oil="gingelly">
+        <img src="images/gingelly-500ml.jpeg" class="h-16 mx-auto" alt="Gingelly oil">
+      </button>
+    </div>
+  </div>
+
+  <!-- Details -->
+  <div>
+    <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">100% NATURAL · FSSAI CERTIFIED</p>
+    <h1 id="oilName" class="font-display text-4xl mb-2">Groundnut Oil</h1>
+    <p id="oilTamil" class="text-ink/60 mb-6">வாகை மரச்செக்கு கடலை எண்ணெய்</p>
+
+    <div class="flex items-center gap-2 mb-8">
+      <div class="text-gold text-sm">★★★★★</div>
+      <span class="text-ink/50 text-sm">Cold-pressed, wood chekku method</span>
+    </div>
+
+    <!-- Size selector -->
+    <div class="mb-6">
+      <div class="text-sm font-medium mb-3">Select size</div>
+      <div class="flex gap-3 flex-wrap" id="sizeSelector"></div>
+    </div>
+
+    <div class="flex items-baseline gap-3 mb-8">
+      <span id="price" class="font-display text-3xl">₹ —</span>
+      <span class="text-ink/40 text-sm">Inclusive of all taxes</span>
+    </div>
+
+    <div class="flex items-center gap-4 mb-10">
+      <div class="flex items-center border border-ink/20 rounded-full">
+        <button id="qtyMinus" class="w-10 h-10 text-lg" aria-label="Decrease quantity">–</button>
+        <span id="qty" class="w-8 text-center">1</span>
+        <button id="qtyPlus" class="w-10 h-10 text-lg" aria-label="Increase quantity">+</button>
+      </div>
+      <button id="addToCart" class="flex-1 bg-olive text-cream py-3.5 rounded-full font-medium hover:bg-olivedark transition-colors">
+        Add to cart
+      </button>
+    </div>
+
+    <div class="border-t border-ink/10 pt-6 space-y-4 text-sm text-ink/70">
+      <p><span class="font-medium text-ink">Best before:</span> 6 months from packing date</p>
+      <p><span class="font-medium text-ink">FSSAI:</span> 22419589000684</p>
+      <p><span class="font-medium text-ink">Manufactured by:</span> Swaram Agro Products, Palavanjipalayam, Veerapandi, Tirupur - 641605</p>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-olivedark text-cream/60 text-xs text-center py-6 mt-10">© 2026 Swaram Agro Products. All rights reserved.</footer>
+
+<script src="cart.js"></script>
+<script>
+  const oilData = {
+    groundnut: { name: 'Groundnut Oil', tamil: 'வாகை மரச்செக்கு கடலை எண்ணெய்',
+      sizes: {
+        '500ML': { price: 170, img: getSwaramImage('images/groundnut-500ml.jpeg') },
+        '1L':    { price: 330, img: getSwaramImage('images/groundnut-1l.jpeg') },
+        '5L':    { price: 1600, img: getSwaramImage('images/groundnut-5l.jpeg') }
+      } },
+    coconut: { name: 'Coconut Oil', tamil: 'வாகை மரச்செக்கு தேங்காய் எண்ணெய்',
+      sizes: {
+        '200ML': { price: 90, img: getSwaramImage('images/coconut-500ml.jpeg') },
+        '500ML': { price: 200, img: getSwaramImage('images/coconut-500ml.jpeg') },
+        '1L':    { price: 400, img: getSwaramImage('images/coconut-1l.jpeg') }
+      } },
+    gingelly: { name: 'Gingelly Oil', tamil: 'வாகை மரச்செக்கு நல்லெண்ணெய்',
+      sizes: {
+        '200ML': { price: 100, img: getSwaramImage('images/gingelly-500ml.jpeg') },
+        '500ML': { price: 230, img: getSwaramImage('images/gingelly-500ml.jpeg') },
+        '1L':    { price: 450, img: getSwaramImage('images/gingelly-5l.jpeg') }
+      } }
+  };
+
+  let currentOil = new URLSearchParams(location.search).get('oil') || 'groundnut';
+  if (!oilData[currentOil]) currentOil = 'groundnut';
+  let currentSize = Object.keys(oilData[currentOil].sizes)[1] || Object.keys(oilData[currentOil].sizes)[0];
+  let qty = 1;
+
+  function buildSizeButtons() {
+    const wrap = document.getElementById('sizeSelector');
+    wrap.innerHTML = '';
+    Object.keys(oilData[currentOil].sizes).forEach(size => {
+      const btn = document.createElement('button');
+      btn.dataset.size = size;
+      btn.className = 'size-btn px-5 py-2.5 rounded-full text-sm font-medium transition-colors';
+      btn.textContent = size === '200ML' ? '200ML' : size === '500ML' ? '500ML' : size === '1L' ? '1 Litre' : '5 Litre';
+      btn.addEventListener('click', () => { currentSize = size; render(); });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function render() {
+    const data = oilData[currentOil];
+    if (!data.sizes[currentSize]) currentSize = Object.keys(data.sizes)[0];
+    const sizeData = data.sizes[currentSize];
+
+    document.getElementById('oilName').textContent = data.name;
+    document.getElementById('oilTamil').textContent = data.tamil;
+    document.getElementById('crumbOil').textContent = data.name;
+    document.getElementById('mainImage').src = sizeData.img;
+    document.getElementById('mainImage').alt = data.name + ' ' + currentSize + ' bottle';
+    document.getElementById('price').textContent = '₹ ' + sizeData.price;
+
+    document.querySelectorAll('.oil-thumb').forEach(btn => {
+      btn.classList.toggle('border-olive', btn.dataset.oil === currentOil);
+      btn.classList.toggle('border-transparent', btn.dataset.oil !== currentOil);
+    });
+
+    if (!document.querySelector(`#sizeSelector [data-size="${currentSize}"]`) || document.getElementById('sizeSelector').children.length !== Object.keys(data.sizes).length) {
+      buildSizeButtons();
+    }
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      const active = btn.dataset.size === currentSize;
+      btn.className = 'size-btn px-5 py-2.5 rounded-full text-sm font-medium transition-colors ' +
+        (active ? 'border-2 border-olive bg-olive text-cream' : 'border border-ink/20 hover:border-olive');
+    });
+    document.getElementById('qty').textContent = qty;
+  }
+
+  document.querySelectorAll('.oil-thumb').forEach(btn => {
+    btn.addEventListener('click', () => { currentOil = btn.dataset.oil; render(); });
+  });
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => { currentSize = btn.dataset.size; render(); });
+  });
+  document.getElementById('qtyMinus').addEventListener('click', () => { qty = Math.max(1, qty - 1); render(); });
+  document.getElementById('qtyPlus').addEventListener('click', () => { qty += 1; render(); });
+  document.getElementById('addToCart').addEventListener('click', () => {
+    const data = oilData[currentOil];
+    const sizeData = data.sizes[currentSize];
+    addToCart(currentOil, data.name, currentSize, qty, sizeData.price);
+    showToast(`Added ${qty} × ${data.name} (${currentSize}) to cart`);
+  });
+
+  render();
+</script>
+
+</body>
+</html>
