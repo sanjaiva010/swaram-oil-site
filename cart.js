@@ -16,13 +16,13 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
-function addToCart(oil, oilName, size, qty) {
+function addToCart(oil, oilName, size, qty, price) {
   const cart = getCart();
   const existing = cart.find(i => i.oil === oil && i.size === size);
   if (existing) {
     existing.qty += qty;
   } else {
-    cart.push({ oil, oilName, size, qty });
+    cart.push({ oil, oilName, size, qty, price: price || 0 });
   }
   saveCart(cart);
 }
