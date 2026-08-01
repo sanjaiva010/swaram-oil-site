@@ -83,16 +83,12 @@
     <!-- Size selector -->
     <div class="mb-6">
       <div class="text-sm font-medium mb-3">Select size</div>
-      <div class="flex gap-3" id="sizeSelector">
-        <button class="size-btn px-5 py-2.5 rounded-full border border-ink/20 text-sm font-medium hover:border-olive" data-size="500ML" data-price="—">500ML</button>
-        <button class="size-btn px-5 py-2.5 rounded-full border-2 border-olive bg-olive text-cream text-sm font-medium" data-size="1L" data-price="—">1 Litre</button>
-        <button class="size-btn px-5 py-2.5 rounded-full border border-ink/20 text-sm font-medium hover:border-olive" data-size="5L" data-price="—">5 Litre</button>
-      </div>
+      <div class="flex gap-3 flex-wrap" id="sizeSelector"></div>
     </div>
 
     <div class="flex items-baseline gap-3 mb-8">
       <span id="price" class="font-display text-3xl">₹ —</span>
-      <span class="text-ink/40 text-sm">Price to be added</span>
+      <span class="text-ink/40 text-sm">Inclusive of all taxes</span>
     </div>
 
     <div class="flex items-center gap-4 mb-10">
@@ -120,38 +116,67 @@
 <script>
   const oilData = {
     groundnut: { name: 'Groundnut Oil', tamil: 'வாகை மரச்செக்கு கடலை எண்ணெய்',
-      images: { '500ML': 'images/groundnut-500ml.jpeg', '1L': 'images/groundnut-1l.jpeg', '5L': 'images/groundnut-5l.jpeg' } },
+      sizes: {
+        '500ML': { price: 170, img: 'images/groundnut-500ml.jpeg' },
+        '1L':    { price: 330, img: 'images/groundnut-1l.jpeg' },
+        '5L':    { price: 1600, img: 'images/groundnut-5l.jpeg' }
+      } },
     coconut: { name: 'Coconut Oil', tamil: 'வாகை மரச்செக்கு தேங்காய் எண்ணெய்',
-      images: { '500ML': 'images/coconut-500ml.jpeg', '1L': 'images/coconut-1l.jpeg', '5L': 'images/coconut-5l.jpeg' } },
+      sizes: {
+        '200ML': { price: 90, img: 'images/coconut-500ml.jpeg' },
+        '500ML': { price: 200, img: 'images/coconut-500ml.jpeg' },
+        '1L':    { price: 400, img: 'images/coconut-1l.jpeg' }
+      } },
     gingelly: { name: 'Gingelly Oil', tamil: 'வாகை மரச்செக்கு நல்லெண்ணெய்',
-      images: { '500ML': 'images/gingelly-500ml.jpeg', '1L': 'images/gingelly-500ml.jpeg', '5L': 'images/gingelly-5l.jpeg' } }
+      sizes: {
+        '200ML': { price: 100, img: 'images/gingelly-500ml.jpeg' },
+        '500ML': { price: 230, img: 'images/gingelly-500ml.jpeg' },
+        '1L':    { price: 450, img: 'images/gingelly-5l.jpeg' }
+      } }
   };
 
   let currentOil = new URLSearchParams(location.search).get('oil') || 'groundnut';
-  let currentSize = '1L';
+  if (!oilData[currentOil]) currentOil = 'groundnut';
+  let currentSize = Object.keys(oilData[currentOil].sizes)[1] || Object.keys(oilData[currentOil].sizes)[0];
   let qty = 1;
-  let cartCount = 0;
+
+  function buildSizeButtons() {
+    const wrap = document.getElementById('sizeSelector');
+    wrap.innerHTML = '';
+    Object.keys(oilData[currentOil].sizes).forEach(size => {
+      const btn = document.createElement('button');
+      btn.dataset.size = size;
+      btn.className = 'size-btn px-5 py-2.5 rounded-full text-sm font-medium transition-colors';
+      btn.textContent = size === '200ML' ? '200ML' : size === '500ML' ? '500ML' : size === '1L' ? '1 Litre' : '5 Litre';
+      btn.addEventListener('click', () => { currentSize = size; render(); });
+      wrap.appendChild(btn);
+    });
+  }
 
   function render() {
     const data = oilData[currentOil];
+    if (!data.sizes[currentSize]) currentSize = Object.keys(data.sizes)[0];
+    const sizeData = data.sizes[currentSize];
+
     document.getElementById('oilName').textContent = data.name;
     document.getElementById('oilTamil').textContent = data.tamil;
     document.getElementById('crumbOil').textContent = data.name;
-    document.getElementById('mainImage').src = data.images[currentSize];
+    document.getElementById('mainImage').src = sizeData.img;
     document.getElementById('mainImage').alt = data.name + ' ' + currentSize + ' bottle';
+    document.getElementById('price').textContent = '₹ ' + sizeData.price;
 
     document.querySelectorAll('.oil-thumb').forEach(btn => {
       btn.classList.toggle('border-olive', btn.dataset.oil === currentOil);
       btn.classList.toggle('border-transparent', btn.dataset.oil !== currentOil);
     });
+
+    if (!document.querySelector(`#sizeSelector [data-size="${currentSize}"]`) || document.getElementById('sizeSelector').children.length !== Object.keys(data.sizes).length) {
+      buildSizeButtons();
+    }
     document.querySelectorAll('.size-btn').forEach(btn => {
       const active = btn.dataset.size === currentSize;
-      btn.classList.toggle('bg-olive', active);
-      btn.classList.toggle('text-cream', active);
-      btn.classList.toggle('border-2', active);
-      btn.classList.toggle('border-olive', active);
-      btn.classList.toggle('border', !active);
-      btn.classList.toggle('border-ink/20', !active);
+      btn.className = 'size-btn px-5 py-2.5 rounded-full text-sm font-medium transition-colors ' +
+        (active ? 'border-2 border-olive bg-olive text-cream' : 'border border-ink/20 hover:border-olive');
     });
     document.getElementById('qty').textContent = qty;
   }
@@ -166,7 +191,8 @@
   document.getElementById('qtyPlus').addEventListener('click', () => { qty += 1; render(); });
   document.getElementById('addToCart').addEventListener('click', () => {
     const data = oilData[currentOil];
-    addToCart(currentOil, data.name, currentSize, qty);
+    const sizeData = data.sizes[currentSize];
+    addToCart(currentOil, data.name, currentSize, qty, sizeData.price);
     showToast(`Added ${qty} × ${data.name} (${currentSize}) to cart`);
   });
 
