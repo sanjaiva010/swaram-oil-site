@@ -29,7 +29,7 @@
 <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-3">
-      <img src="images/logo-new-cropped.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover object-top shadow-md bg-white">
+      <img src="images/logo-square.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
       <div class="leading-tight">
         <div class="font-display text-lg tracking-wide">SWARAM</div>
         <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
@@ -42,7 +42,10 @@
       <a href="product.html" class="hover:text-rust transition-colors">Shop</a>
     </nav>
     <div class="flex items-center gap-4 relative">
-      <a href="login.html" class="text-sm font-medium text-ink/70 hover:text-rust hidden sm:inline">Login</a>
+      <a href="login.html" aria-label="Login" class="flex items-center gap-1.5 text-sm font-medium text-ink/70 hover:text-rust">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="hidden sm:inline">Login</span>
+      </a>
       <button id="searchToggle" aria-label="Search" class="text-ink/70 hover:text-ink">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       </button>
@@ -58,8 +61,10 @@
 </header>
 
 <!-- HERO -->
-<section class="max-w-7xl mx-auto px-6 pt-14 pb-8">
-  <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+<section class="max-w-7xl mx-auto px-6 pt-14 pb-8 relative overflow-hidden">
+  <div class="drop bob" style="left:4%; top:10%; opacity:0.35; animation: bobFloat 7s ease-in-out infinite;"></div>
+  <div class="drop bob" style="left:12%; top:55%; opacity:0.25; animation: bobFloat 5.5s ease-in-out infinite 1s;"></div>
+  <div class="grid md:grid-cols-2 gap-10 items-center mb-16 relative">
     <div class="rise">
       <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-4">வாகை மரச்செக்கு · WOOD-PRESSED</p>
       <h1 class="font-display text-5xl md:text-6xl leading-[1.05] mb-2">
