@@ -161,3 +161,14 @@ a:focus-visible, button:focus-visible {
   .flip-digit.flip span { animation: none !important; }
   .drop { animation: none !important; }
 }
+
+.bob {
+  animation: bobFloat 6s ease-in-out infinite;
+}
+@keyframes bobFloat {
+  0%, 100% { transform: translateY(0) rotate(45deg); }
+  50% { transform: translateY(-14px) rotate(45deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bob { animation: none !important; }
+}
