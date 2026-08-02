@@ -29,7 +29,7 @@
 <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-3">
-      <img src="images/logo.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
+      <img src="images/logo-new-cropped.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover object-top shadow-md bg-white">
       <div class="leading-tight">
         <div class="font-display text-lg tracking-wide">SWARAM</div>
         <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
@@ -81,8 +81,10 @@
 
     <!-- Product card grid, mirrors reference: big card + 2 side cards -->
     <div class="relative">
-      <div class="absolute -top-2 right-4 w-20 h-20 press-mark rounded-full flex items-center justify-center bg-cream spin-slow z-10">
-        <span class="font-display text-[9px] text-center leading-tight text-olive px-2">COLD PRESSED · PURE</span>
+      <div class="flex justify-end mb-3">
+        <div class="w-20 h-20 press-mark rounded-full flex items-center justify-center bg-cream spin-slow">
+          <span class="font-display text-[9px] text-center leading-tight text-olive px-2">COLD PRESSED · PURE</span>
+        </div>
       </div>
       <div class="grid grid-cols-3 gap-4 items-stretch">
         <a id="heroMainCard" href="product.html?oil=groundnut" class="col-span-2 rounded-3xl relative overflow-hidden block h-[420px]">
@@ -128,20 +130,26 @@
     </a>
 
     <div class="grid grid-cols-3 gap-4">
-      <a href="product.html?oil=groundnut" class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col hover:border-olive transition-colors">
-        <div class="bg-goldlight/30 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/groundnut-500ml.jpeg" class="h-24" alt="Groundnut oil 500ml"></div>
-        <div class="text-sm font-semibold">₹ 170</div>
-        <div class="text-xs text-ink/50">Groundnut 500ML</div>
+      <a href="product.html?oil=groundnut" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
+        <div class="h-28 overflow-hidden"><img src="images/groundnut-500ml.jpeg" class="w-full h-full object-cover" alt="Groundnut oil 500ml"></div>
+        <div class="p-3">
+          <div class="text-sm font-semibold">₹ 170</div>
+          <div class="text-xs text-ink/50">Groundnut 500ML</div>
+        </div>
       </a>
-      <a href="product.html?oil=coconut" class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col hover:border-olive transition-colors">
-        <div class="bg-olive/10 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/coconut-500ml.jpeg" class="h-24" alt="Coconut oil 500ml"></div>
-        <div class="text-sm font-semibold">₹ 200</div>
-        <div class="text-xs text-ink/50">Coconut 500ML</div>
+      <a href="product.html?oil=coconut" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
+        <div class="h-28 overflow-hidden"><img src="images/coconut-500ml.jpeg" class="w-full h-full object-cover" alt="Coconut oil 500ml"></div>
+        <div class="p-3">
+          <div class="text-sm font-semibold">₹ 200</div>
+          <div class="text-xs text-ink/50">Coconut 500ML</div>
+        </div>
       </a>
-      <a href="product.html?oil=gingelly" class="bg-card border border-ink/10 rounded-3xl p-3 flex flex-col hover:border-olive transition-colors">
-        <div class="bg-rust/10 rounded-2xl flex-1 flex items-center justify-center mb-2"><img src="images/gingelly-500ml.jpeg" class="h-24" alt="Gingelly oil 500ml"></div>
-        <div class="text-sm font-semibold">₹ 230</div>
-        <div class="text-xs text-ink/50">Gingelly 500ML</div>
+      <a href="product.html?oil=gingelly" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
+        <div class="h-28 overflow-hidden"><img src="images/gingelly-500ml.jpeg" class="w-full h-full object-cover" alt="Gingelly oil 500ml"></div>
+        <div class="p-3">
+          <div class="text-sm font-semibold">₹ 230</div>
+          <div class="text-xs text-ink/50">Gingelly 500ML</div>
+        </div>
       </a>
     </div>
 
@@ -278,7 +286,7 @@
   <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">CUSTOMER REVIEWS</p>
   <h2 class="font-display text-4xl mb-3">4.8 out of 5</h2>
   <p class="text-ink/50 text-sm mb-10">Based on 62 reviews — sample reviews shown below, replace with real customer feedback once you're live.</p>
-  <div class="grid md:grid-cols-3 gap-6">
+  <div id="reviewsGrid" class="grid md:grid-cols-3 gap-6">
     <div class="bg-card border border-ink/10 rounded-3xl p-6">
       <div class="text-gold text-sm mb-3">★★★★★</div>
       <p class="text-ink/70 text-sm mb-4">"Tastes exactly like the oil my grandmother used to press at home. Rich aroma, not refined-tasting at all."</p>
@@ -294,8 +302,37 @@
       <p class="text-ink/70 text-sm mb-4">"Coconut oil doesn't have that sharp refined smell — genuinely cold-pressed, you can tell."</p>
       <div class="text-sm font-medium">— Divya S.</div>
     </div>
+    <button id="addReviewBtn" class="border-2 border-dashed border-ink/20 rounded-3xl p-6 flex flex-col items-center justify-center gap-2 text-ink/50 hover:border-olive hover:text-olive transition-colors min-h-[160px]">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="text-sm font-medium">Add your review</span>
+    </button>
   </div>
 </section>
+
+<!-- Add review modal -->
+<div id="reviewModal" class="hidden fixed inset-0 bg-ink/50 z-50 flex items-center justify-center px-6">
+  <div class="bg-cream rounded-3xl p-6 w-full max-w-sm">
+    <h3 class="font-display text-xl mb-4">Share your review</h3>
+    <form id="reviewForm">
+      <label class="text-sm font-medium block mb-2">Your rating</label>
+      <div id="starPicker" class="flex gap-1 mb-4 text-2xl text-ink/20">
+        <button type="button" data-star="1" class="star-btn">★</button>
+        <button type="button" data-star="2" class="star-btn">★</button>
+        <button type="button" data-star="3" class="star-btn">★</button>
+        <button type="button" data-star="4" class="star-btn">★</button>
+        <button type="button" data-star="5" class="star-btn">★</button>
+      </div>
+      <label class="text-sm font-medium block mb-2">Your name</label>
+      <input id="reviewName" required placeholder="e.g. Anitha K." class="w-full border border-ink/20 rounded-full px-4 py-2.5 mb-4 bg-card outline-none focus:border-olive">
+      <label class="text-sm font-medium block mb-2">Your review</label>
+      <textarea id="reviewText" required rows="3" placeholder="What did you think?" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 mb-5 bg-card outline-none focus:border-olive resize-none"></textarea>
+      <div class="flex gap-3">
+        <button type="button" id="cancelReviewBtn" class="flex-1 border border-ink/20 rounded-full py-2.5 font-medium">Cancel</button>
+        <button type="submit" class="flex-1 bg-olive text-cream rounded-full py-2.5 font-medium hover:bg-olivedark">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="bg-olivedark text-cream/80">
@@ -370,13 +407,22 @@
     e.preventDefault(); heroIdx = (heroIdx - 1 + heroOils.length) % heroOils.length; renderHero();
   });
 
-  // Live litres counter — flip-clock style. Starts at a base figure, counts up
-  // on scroll into view with each digit flipping, then keeps ticking up slowly
-  // forever to feel "live". Change LITRE_BASE anytime.
-  const LITRE_BASE = 128450;
+  // Live litres counter — flip-clock style. Base starts above 5 lakh litres,
+  // and the running total is saved in the browser so reloading the page never
+  // resets it backward — it only ever keeps climbing.
+  const LITRE_BASE = 512450;
+  const LITRE_KEY = 'swaram_litre_total';
   const flipWrap = document.getElementById('litreFlip');
   let counterStarted = false;
   let lastDigits = null;
+
+  function getStoredLitres() {
+    const stored = parseInt(localStorage.getItem(LITRE_KEY), 10);
+    return (!isNaN(stored) && stored > LITRE_BASE) ? stored : LITRE_BASE;
+  }
+  function saveLitres(value) {
+    localStorage.setItem(LITRE_KEY, Math.floor(value));
+  }
 
   function renderFlip(value) {
     const str = Math.floor(value).toString();
@@ -405,13 +451,18 @@
       return;
     }
 
-    // Subsequent renders: only flip tiles whose digit actually changed
+    // Subsequent renders: only flip tiles whose digit actually changed.
+    // If digit count changed too (e.g. crossed a million), rebuild fresh.
+    if (digits.length !== lastDigits.length) {
+      lastDigits = null;
+      renderFlip(value);
+      return;
+    }
     const tiles = flipWrap.querySelectorAll('.flip-digit');
-    const oldPadded = lastDigits.padStart(digits.length, '0');
     digits.split('').forEach((d, i) => {
       const tile = tiles[i];
       if (!tile) return;
-      if (oldPadded[i] !== d) {
+      if (lastDigits[i] !== d) {
         tile.classList.remove('flip');
         void tile.offsetWidth; // restart animation
         tile.classList.add('flip');
@@ -435,9 +486,11 @@
 
   function startLiveTicking(current) {
     let value = current;
+    saveLitres(value);
     setInterval(() => {
       value += Math.floor(Math.random() * 3) + 1;
       renderFlip(value);
+      saveLitres(value);
     }, 2500);
   }
 
@@ -445,12 +498,72 @@
     entries.forEach(entry => {
       if (entry.isIntersecting && !counterStarted) {
         counterStarted = true;
+        const target = getStoredLitres();
         renderFlip(0);
-        animateCountTo(LITRE_BASE, 1800);
+        animateCountTo(target, 1800);
       }
     });
   }, { threshold: 0.4 });
   counterObserver.observe(flipWrap);
+
+  // ---- Add-your-review feature ----
+  const REVIEWS_KEY = 'swaram_user_reviews';
+  let selectedStars = 5;
+
+  function getUserReviews() {
+    try { return JSON.parse(localStorage.getItem(REVIEWS_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function renderUserReviews() {
+    const grid = document.getElementById('reviewsGrid');
+    const addBtn = document.getElementById('addReviewBtn');
+    document.querySelectorAll('.user-review-card').forEach(el => el.remove());
+    getUserReviews().forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'user-review-card bg-card border border-ink/10 rounded-3xl p-6';
+      card.innerHTML = `
+        <div class="text-gold text-sm mb-3">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
+        <p class="text-ink/70 text-sm mb-4">"${r.text}"</p>
+        <div class="text-sm font-medium">— ${r.name}</div>
+      `;
+      grid.insertBefore(card, addBtn);
+    });
+  }
+  renderUserReviews();
+
+  function updateStarPicker() {
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      btn.classList.toggle('text-gold', parseInt(btn.dataset.star) <= selectedStars);
+      btn.classList.toggle('text-ink/20', parseInt(btn.dataset.star) > selectedStars);
+    });
+  }
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', () => { selectedStars = parseInt(btn.dataset.star); updateStarPicker(); });
+  });
+  updateStarPicker();
+
+  document.getElementById('addReviewBtn').addEventListener('click', () => {
+    document.getElementById('reviewModal').classList.remove('hidden');
+  });
+  document.getElementById('cancelReviewBtn').addEventListener('click', () => {
+    document.getElementById('reviewModal').classList.add('hidden');
+  });
+  document.getElementById('reviewForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const reviews = getUserReviews();
+    reviews.unshift({
+      name: document.getElementById('reviewName').value,
+      text: document.getElementById('reviewText').value,
+      stars: selectedStars
+    });
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+    document.getElementById('reviewForm').reset();
+    selectedStars = 5;
+    updateStarPicker();
+    document.getElementById('reviewModal').classList.add('hidden');
+    renderUserReviews();
+    showToast('Thanks for your review!');
+  });
 </script>
 
 </body>
