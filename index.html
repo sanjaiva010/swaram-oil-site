@@ -262,6 +262,16 @@
   </div>
 </section>
 
+<!-- LIFESTYLE REEL -->
+<section class="max-w-7xl mx-auto px-6 py-24">
+  <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">IN EVERY KITCHEN</p>
+  <h2 class="font-display text-4xl mb-10">One oil, endless meals</h2>
+  <div id="reel" class="relative rounded-3xl overflow-hidden h-[420px] md:h-[520px] bg-ink">
+    <div id="reelTrack" class="absolute inset-0"></div>
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10" id="reelDots"></div>
+  </div>
+</section>
+
 <!-- LIVE COUNTER -->
 <section class="bg-olivedark text-cream relative overflow-hidden">
   <div class="drop" style="left:8%; animation-duration:3.2s; animation-delay:0s;"></div>
@@ -568,6 +578,53 @@
     document.getElementById('reviewModal').classList.add('hidden');
     renderUserReviews();
     showToast('Thanks for your review!');
+  });
+
+  // ---- Lifestyle photo reel: auto-advances like a story/reel ----
+  const reelPhotos = [
+    { src: 'images/lifestyle/salad-pour.jpg', caption: 'Finishing a fresh salad' },
+    { src: 'images/lifestyle/stirfry-pour.jpg', caption: 'A splash into the stir-fry' },
+    { src: 'images/lifestyle/grill-pour.jpg', caption: 'Brushed on before the grill' },
+    { src: 'images/lifestyle/frying-vada.jpg', caption: 'Golden, crisp, wood-pressed' },
+    { src: 'images/lifestyle/deep-fry.jpg', caption: 'Trusted in every kitchen' },
+    { src: 'images/lifestyle/cooking-pot.jpg', caption: 'Everyday home cooking' },
+    { src: 'images/lifestyle/baking-pour.jpg', caption: 'Even finds its way into baking' }
+  ];
+  const reelTrack = document.getElementById('reelTrack');
+  const reelDots = document.getElementById('reelDots');
+  let reelIndex = 0;
+
+  reelPhotos.forEach((p, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'reel-slide' + (i === 0 ? ' active' : '');
+    slide.innerHTML = `
+      <img src="${p.src}" alt="${p.caption}">
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"></div>
+      <div class="absolute bottom-14 left-6 text-cream font-display text-xl">${p.caption}</div>
+    `;
+    reelTrack.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.className = 'reel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', () => goToReelSlide(i));
+    reelDots.appendChild(dot);
+  });
+
+  function goToReelSlide(i) {
+    document.querySelectorAll('.reel-slide').forEach((el, idx) => el.classList.toggle('active', idx === i));
+    document.querySelectorAll('.reel-dot').forEach((el, idx) => el.classList.toggle('active', idx === i));
+    reelIndex = i;
+  }
+
+  let reelTimer = setInterval(() => {
+    goToReelSlide((reelIndex + 1) % reelPhotos.length);
+  }, 3200);
+
+  // Pause auto-advance while the user is interacting with dots, resume after
+  document.getElementById('reel').addEventListener('mouseenter', () => clearInterval(reelTimer));
+  document.getElementById('reel').addEventListener('mouseleave', () => {
+    reelTimer = setInterval(() => goToReelSlide((reelIndex + 1) % reelPhotos.length), 3200);
   });
 </script>
 
