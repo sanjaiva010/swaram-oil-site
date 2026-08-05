@@ -128,6 +128,82 @@ alter table orders add column if not exists phone text;
 alter table orders add column if not exists address text;
 alter table orders add column if not exists pincode text;
 
+-- Tracking timestamps for the status timeline
+alter table orders add column if not exists accepted_at timestamptz;
+alter table orders add column if not exists packed_at timestamptz;
+alter table orders add column if not exists shipped_at timestamptz;
+alter table orders add column if not exists delivered_at timestamptz;
+
+-- ============================================
+-- Address book — an address must be APPROVED by
+-- the admin before it can be used at checkout.
+-- (Swaram does its own delivery, so the admin
+-- verifies the pincode/address first.)
+-- ============================================
+create table if not exists addresses (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  label text default 'Home',
+  name text,
+  phone text,
+  address text,
+  pincode text,
+  approved boolean default false,
+  created_at timestamptz default now()
+);
+
+-- ============================================
+-- Pincodes Swaram delivers to (admin maintains).
+-- Checkout does a live "we deliver here / not yet".
+-- ============================================
+create table if not exists service_pincodes (
+  pincode text primary key,
+  area text default '',
+  created_at timestamptz default now()
+);
+
+-- ============================================
+-- Product-level reviews (one per oil) + avg rating
+-- ============================================
+create table if not exists product_reviews (
+  id uuid primary key default gen_random_uuid(),
+  oil text,
+  user_id uuid,
+  name text,
+  rating int check (rating between 1 and 5),
+  text text,
+  created_at timestamptz default now()
+);
+
+-- ============================================
+-- Cart sync: save the cart to the account so it
+-- follows the user across devices.
+-- ============================================
+create table if not exists carts (
+  user_id uuid primary key,
+  items jsonb default '[]',
+  updated_at timestamptz default now()
+);
+
+-- ============================================
+-- Wishlist
+-- ============================================
+create table if not exists wishlist (
+  user_id uuid not null,
+  oil text not null,
+  created_at timestamptz default now(),
+  primary key (user_id, oil)
+);
+
+-- The admin app manages these with the anon key too
+-- (same architecture as the existing admin tables),
+-- so keep row level security disabled for them.
+alter table addresses       disable row level security;
+alter table service_pincodes disable row level security;
+alter table product_reviews disable row level security;
+alter table carts           disable row level security;
+alter table wishlist        disable row level security;
+
 -- Note: the admin dashboard (built separately) will need its own
 -- service-role connection to read/update ALL orders — that's normal,
 -- the service role key bypasses RLS and must never be used in the

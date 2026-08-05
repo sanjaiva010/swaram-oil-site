@@ -4,10 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Swaram — Shop Cold-Pressed Oils</title>
+<meta name="description" content="Buy Swaram wood-pressed cold-pressed groundnut, coconut and gingelly oils online. 500ML, 1L and 5L packs, FSSAI certified, delivered to your door.">
+<meta property="og:title" content="Swaram — Shop Cold-Pressed Oils">
+<meta property="og:description" content="Wood-pressed cold-pressed groundnut, coconut & gingelly oils. FSSAI certified.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/logo-square.png">
+<link rel="icon" type="image/png" href="images/logo-square.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 <script>
   tailwind.config = {
     theme: { extend: { colors: {
@@ -31,20 +39,30 @@
       </div>
     </a>
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/80">
-      <a href="index.html" class="hover:text-rust transition-colors">Home</a>
-      <a href="index.html#range" class="hover:text-rust transition-colors">Our Oils</a>
-      <a href="index.html#story" class="hover:text-rust transition-colors">The Chekku Method</a>
-      <a href="product.html" class="text-ink">Shop</a>
+      <a href="index.html" class="hover:text-rust transition-colors" data-i18n="home">Home</a>
+      <a href="index.html#range" class="hover:text-rust transition-colors" data-i18n="ourOils">Our Oils</a>
+      <a href="index.html#story" class="hover:text-rust transition-colors" data-i18n="chekku">The Chekku Method</a>
+      <a href="product.html" class="text-ink" data-i18n="shop">Shop</a>
     </nav>
     <div class="flex items-center gap-4">
+      <button data-i18n-lang aria-label="Switch language" class="text-[11px] font-medium border border-ink/20 rounded-full px-3 py-1.5 text-ink/70 hover:border-olive transition-colors">தமிழ்</button>
       <a id="accountLink" href="login.html" aria-label="Login" class="flex items-center gap-1.5 text-sm font-medium text-ink/70 hover:text-rust">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span id="accountLabel" class="hidden sm:inline">Login</span>
       </a>
       <a href="cart.html" aria-label="Cart" class="relative text-ink/70 hover:text-ink">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
-      <span class="cart-badge absolute -top-2 -right-2 bg-rust text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-    </a>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
+        <span class="cart-badge absolute -top-2 -right-2 bg-rust text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      </a>
+      <button id="menuBtn" aria-label="Menu" class="md:hidden text-ink/70 text-2xl leading-none">☰</button>
+    </div>
+  </div>
+  <div id="mobileNav" class="hidden md:hidden border-t border-ink/10 bg-cream px-6 py-4 space-y-3 text-sm font-medium text-ink/80">
+    <a href="index.html" class="block">Home</a>
+    <a href="index.html#range" class="block">Our Oils</a>
+    <a href="index.html#story" class="block">The Chekku Method</a>
+    <a href="product.html" class="block">Shop</a>
+    <a id="mobileAccountLink" href="login.html" class="block text-rust">Login</a>
   </div>
 </header>
 
@@ -57,7 +75,7 @@
 
   <!-- Gallery -->
   <div>
-    <div class="rounded-3xl h-[420px] mb-4 overflow-hidden relative">
+    <div class="rounded-3xl h-[420px] mb-4 overflow-hidden relative bg-card border border-ink/10">
       <img id="mainImage" src="images/groundnut-1l.jpeg" alt="Swaram oil bottle" class="absolute inset-0 w-full h-full object-contain p-6 rise" style="animation-duration:.4s">
     </div>
     <div class="flex gap-3">
@@ -79,9 +97,9 @@
     <h1 id="oilName" class="font-display text-4xl mb-2">Groundnut Oil</h1>
     <p id="oilTamil" class="text-ink/60 mb-6">வாகை மரச்செக்கு கடலை எண்ணெய்</p>
 
-    <div class="flex items-center gap-2 mb-8">
-      <div class="text-gold text-sm">★★★★★</div>
-      <span class="text-ink/50 text-sm">Cold-pressed, wood chekku method</span>
+    <div class="flex items-center gap-3 mb-8">
+      <div id="avgStars" class="text-gold text-sm">★★★★★</div>
+      <span id="avgLabel" class="text-ink/50 text-sm">Cold-pressed, wood chekku method</span>
     </div>
 
     <!-- Size selector -->
@@ -90,10 +108,11 @@
       <div class="flex gap-3 flex-wrap" id="sizeSelector"></div>
     </div>
 
-    <div class="flex items-baseline gap-3 mb-8">
+    <div class="flex items-baseline gap-3 mb-2">
       <span id="price" class="font-display text-3xl">₹ —</span>
       <span class="text-ink/40 text-sm">Inclusive of all taxes</span>
     </div>
+    <div id="stockLine" class="text-sm mb-8"></div>
 
     <div class="flex items-center gap-4 mb-10">
       <div class="flex items-center border border-ink/20 rounded-full">
@@ -103,6 +122,9 @@
       </div>
       <button id="addToCart" class="flex-1 bg-olive text-cream py-3.5 rounded-full font-medium hover:bg-olivedark transition-colors">
         Add to cart
+      </button>
+      <button id="wishBtn" aria-label="Save to wishlist" class="w-12 h-12 shrink-0 border border-ink/20 rounded-full flex items-center justify-center text-ink/50 hover:text-rust transition-colors">
+        <svg id="wishIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
       </button>
     </div>
 
@@ -114,9 +136,46 @@
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section id="reviews" class="max-w-7xl mx-auto px-6 py-16">
+  <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+    <div>
+      <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">REVIEWS</p>
+      <h2 id="reviewHeading" class="font-display text-3xl">Loved by our customers</h2>
+      <div id="avgLabelBig" class="text-ink/60 text-sm mt-2"></div>
+    </div>
+    <button id="writeReviewBtn" class="bg-olive text-cream rounded-full px-5 py-2.5 text-sm font-medium hover:bg-olivedark transition-colors">Write a review</button>
+  </div>
+  <div id="reviewsList" class="grid md:grid-cols-2 gap-4"></div>
+</section>
+
+<!-- Review modal -->
+<div id="reviewModal" class="hidden fixed inset-0 bg-ink/50 z-50 flex items-center justify-center px-6">
+  <div class="bg-cream rounded-3xl p-6 w-full max-w-sm">
+    <h3 class="font-display text-xl mb-4">Review this oil</h3>
+    <form id="reviewForm">
+      <label class="text-sm font-medium block mb-2">Your rating</label>
+      <div id="starPicker" class="flex gap-1 mb-4 text-2xl text-ink/20">
+        <button type="button" data-star="1" class="star-btn">★</button>
+        <button type="button" data-star="2" class="star-btn">★</button>
+        <button type="button" data-star="3" class="star-btn">★</button>
+        <button type="button" data-star="4" class="star-btn">★</button>
+        <button type="button" data-star="5" class="star-btn">★</button>
+      </div>
+      <label class="text-sm font-medium block mb-2">Your review</label>
+      <textarea id="reviewText" required rows="3" placeholder="How was the aroma, taste, cooking experience?" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 mb-5 bg-white outline-none focus:border-olive resize-none"></textarea>
+      <div class="flex gap-3">
+        <button type="button" id="cancelReviewBtn" class="flex-1 border border-ink/20 rounded-full py-2.5 font-medium">Cancel</button>
+        <button type="submit" id="submitReviewBtn" class="flex-1 bg-olive text-cream rounded-full py-2.5 font-medium hover:bg-olivedark">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <footer class="bg-olivedark text-cream/60 text-xs text-center py-6 mt-10">© 2026 Swaram Agro Products. All rights reserved.</footer>
 
 <script src="cart.js"></script>
+<script src="swaram-i18n.js"></script>
 <script>
   const oilData = {
     groundnut: { name: 'Groundnut Oil', tamil: 'வாகை மரச்செக்கு கடலை எண்ணெய்',
@@ -143,6 +202,8 @@
   if (!oilData[currentOil]) currentOil = 'groundnut';
   let currentSize = Object.keys(oilData[currentOil].sizes)[1] || Object.keys(oilData[currentOil].sizes)[0];
   let qty = 1;
+  let selectedStars = 5;
+  function esc(s) { return String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 
   function buildSizeButtons() {
     const wrap = document.getElementById('sizeSelector');
@@ -155,6 +216,33 @@
       btn.addEventListener('click', () => { currentSize = size; render(); });
       wrap.appendChild(btn);
     });
+  }
+
+  async function checkStock() {
+    const line = document.getElementById('stockLine');
+    const btn = document.getElementById('addToCart');
+    line.textContent = '';
+    btn.disabled = false;
+    btn.classList.remove('opacity-40');
+    try {
+      const { data } = await supabaseClient.from('products').select('stock').eq('oil', currentOil).eq('size', currentSize).maybeSingle();
+      const stock = data ? Number(data.stock) : null;
+      if (stock !== null) {
+        if (stock <= 0) {
+          line.textContent = 'Out of stock — new batch coming soon';
+          line.className = 'text-sm mb-8 text-rust font-medium';
+          btn.disabled = true;
+          btn.classList.add('opacity-40');
+        } else if (stock <= 5) {
+          line.textContent = 'Only ' + stock + ' left in stock';
+          line.className = 'text-sm mb-8 text-rust font-medium';
+        } else {
+          line.className = 'text-sm mb-8 text-olive';
+        }
+      } else {
+        line.className = 'text-sm mb-8';
+      }
+    } catch (e) { line.className = 'text-sm mb-8'; }
   }
 
   function render() {
@@ -174,7 +262,7 @@
       btn.classList.toggle('border-transparent', btn.dataset.oil !== currentOil);
     });
 
-    if (!document.querySelector(`#sizeSelector [data-size="${currentSize}"]`) || document.getElementById('sizeSelector').children.length !== Object.keys(data.sizes).length) {
+    if (document.getElementById('sizeSelector').children.length !== Object.keys(data.sizes).length) {
       buildSizeButtons();
     }
     document.querySelectorAll('.size-btn').forEach(btn => {
@@ -183,14 +271,13 @@
         (active ? 'border-2 border-olive bg-olive text-cream' : 'border border-ink/20 hover:border-olive');
     });
     document.getElementById('qty').textContent = qty;
+    document.getElementById('reviewHeading').textContent = data.name + ' reviews';
+    loadReviews();
+    refreshWish();
+    checkStock();
   }
 
-  document.querySelectorAll('.oil-thumb').forEach(btn => {
-    btn.addEventListener('click', () => { currentOil = btn.dataset.oil; render(); });
-  });
-  document.querySelectorAll('.size-btn').forEach(btn => {
-    btn.addEventListener('click', () => { currentSize = btn.dataset.size; render(); });
-  });
+  document.querySelectorAll('.oil-thumb').forEach(btn => btn.addEventListener('click', () => { currentOil = btn.dataset.oil; render(); }));
   document.getElementById('qtyMinus').addEventListener('click', () => { qty = Math.max(1, qty - 1); render(); });
   document.getElementById('qtyPlus').addEventListener('click', () => { qty += 1; render(); });
   document.getElementById('addToCart').addEventListener('click', () => {
@@ -200,14 +287,94 @@
     showToast(`Added ${qty} × ${data.name} (${currentSize}) to cart`);
   });
 
-(function () {
+  // Header account state + mobile nav
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.toggle('hidden');
+  });
+  (function () {
     getCurrentUser().then(user => {
       if (!user) return;
       const name = (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email;
       document.getElementById('accountLink').href = 'account.html';
       document.getElementById('accountLabel').textContent = name ? name.split(' ')[0] : 'Account';
+      document.getElementById('mobileAccountLink').href = 'account.html';
+      document.getElementById('mobileAccountLink').textContent = 'My Account';
     }).catch(() => {});
   })();
+
+  // ---------- Reviews (per oil) ----------
+  async function loadReviews() {
+    const list = await getProductReviews(currentOil);
+    const wrap = document.getElementById('reviewsList');
+    const avgLabel = document.getElementById('avgLabelBig');
+    if (!list.length) {
+      wrap.innerHTML = `<p class="text-ink/50 text-sm md:col-span-2">No reviews yet for this oil — be the first!</p>`;
+      avgLabel.textContent = 'No reviews yet';
+      document.getElementById('avgStars').textContent = '★★★★☆';
+      document.getElementById('avgLabel').textContent = 'No reviews yet';
+      return;
+    }
+    const avg = list.reduce((s, r) => s + r.rating, 0) / list.length;
+    const avgStars = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+    document.getElementById('avgStars').textContent = avgStars;
+    document.getElementById('avgLabel').textContent = `${avg.toFixed(1)} / 5 · ${list.length} review${list.length === 1 ? '' : 's'}`;
+    avgLabel.textContent = `${avg.toFixed(1)} / 5 average · ${list.length} review${list.length === 1 ? '' : 's'}`;
+
+    wrap.innerHTML = '';
+    list.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'bg-card border border-ink/10 rounded-3xl p-5';
+      card.innerHTML = `
+        <div class="text-gold text-sm mb-2">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+        <p class="text-ink/70 text-sm mb-3">"${esc(r.text)}"</p>
+        <div class="text-sm font-medium">— ${esc(r.name || 'Customer')}</div>
+      `;
+      wrap.appendChild(card);
+    });
+  }
+
+  function openReviewModal() {
+    getCurrentUser().then(u => {
+      if (!u) { showToast('Please login to add a review'); setTimeout(() => { window.location.href = getSitePageUrl('login.html'); }, 900); return; }
+      document.getElementById('reviewModal').classList.remove('hidden');
+    });
+  }
+  function updateStarPicker() {
+    document.querySelectorAll('.star-btn').forEach(b => b.classList.toggle('text-gold', parseInt(b.dataset.star) <= selectedStars));
+  }
+  document.querySelectorAll('.star-btn').forEach(btn => btn.addEventListener('click', () => { selectedStars = parseInt(btn.dataset.star); updateStarPicker(); }));
+  updateStarPicker();
+  document.getElementById('writeReviewBtn').addEventListener('click', openReviewModal);
+  document.getElementById('cancelReviewBtn').addEventListener('click', () => document.getElementById('reviewModal').classList.add('hidden'));
+  document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = document.getElementById('reviewText').value;
+    const btn = document.getElementById('submitReviewBtn');
+    const user = await getCurrentUser();
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    const { error } = await supabaseClient.from('product_reviews').insert({
+      oil: currentOil, user_id: user.id, name: (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email, rating: selectedStars, text
+    });
+    btn.disabled = false; btn.textContent = 'Submit';
+    if (error) { alert('Could not submit review: ' + error.message); return; }
+    document.getElementById('reviewForm').reset(); selectedStars = 5; updateStarPicker();
+    document.getElementById('reviewModal').classList.add('hidden');
+    showToast('Thanks for your review!');
+    loadReviews();
+  });
+
+  // ---------- Wishlist ----------
+  async function refreshWish() {
+    const wished = await isWishlisted(currentOil);
+    const icon = document.getElementById('wishIcon');
+    icon.setAttribute('fill', wished ? 'currentColor' : 'none');
+    document.getElementById('wishBtn').classList.toggle('text-rust', wished);
+    document.getElementById('wishBtn').classList.toggle('border-rust', wished);
+  }
+  document.getElementById('wishBtn').addEventListener('click', async () => {
+    try { await toggleWishlist(currentOil); refreshWish(); }
+    catch (e) { showToast('Please login to save items'); setTimeout(() => { window.location.href = getSitePageUrl('login.html'); }, 900); }
+  });
 
   render();
 </script>

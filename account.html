@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Swaram — My Account</title>
+<link rel="icon" type="image/png" href="images/logo-square.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -30,7 +31,10 @@
         <div class="text-[10px] tracking-[0.2em] text-ink/50 -mt-1">COLD PRESSED · TIRUPUR</div>
       </div>
     </a>
-    <button id="logoutBtn" class="text-sm font-medium text-ink/70 hover:text-rust">Log out</button>
+    <div class="flex items-center gap-5">
+      <a href="cart.html" class="text-sm font-medium text-ink/70 hover:text-rust">Cart</a>
+      <button id="logoutBtn" class="text-sm font-medium text-ink/70 hover:text-rust">Log out</button>
+    </div>
   </div>
 </header>
 
@@ -45,10 +49,8 @@
   <div id="signedInState" class="hidden">
     <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-2">MY ACCOUNT</p>
 
-    <!-- Customer details -->
     <div class="flex items-center gap-4 mb-10">
-      <img id="userAvatar" src="" alt="" class="w-16 h-16 rounded-full object-cover hidden">
-      <div id="userAvatarFallback" class="w-16 h-16 rounded-full bg-olive/10 flex items-center justify-center">
+      <div class="w-16 h-16 rounded-full bg-olive/10 flex items-center justify-center">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#37402A" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div>
@@ -57,47 +59,42 @@
       </div>
     </div>
 
-    <!-- Delivery details -->
+    <!-- Saved addresses -->
     <div class="mb-10">
-      <h2 class="font-display text-xl mb-2">Delivery details</h2>
-      <p class="text-ink/50 text-sm mb-4">We'll pre-fill these at checkout — edit them here anytime, or use your current location.</p>
-      <form id="profileForm" class="bg-card border border-ink/10 rounded-2xl p-5 space-y-4">
-        <div>
-          <label class="text-sm font-medium block mb-2">Full name</label>
-          <input id="profileName" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+      <h2 class="font-display text-xl mb-2">Saved addresses</h2>
+      <p class="text-ink/50 text-sm mb-4">Swaram delivers personally, so each new address is verified before you can order to it. Add one — we'll approve it shortly.</p>
+      <div id="addressBook" class="space-y-3"></div>
+      <form id="addAddressForm" class="bg-card border border-ink/10 rounded-2xl p-5 mt-4 space-y-3">
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm font-medium block mb-1.5">Label</label>
+            <input id="addrLabel" placeholder="Home / Office" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+          </div>
+          <div>
+            <label class="text-sm font-medium block mb-1.5">Name</label>
+            <input id="addrName" required class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+          </div>
         </div>
         <div>
-          <label class="text-sm font-medium block mb-2">Phone number</label>
-          <input id="profilePhone" type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+          <label class="text-sm font-medium block mb-1.5">Phone</label>
+          <input id="addrPhone" required type="tel" pattern="[0-9]{10}" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
         </div>
         <div>
-          <label class="text-sm font-medium block mb-2">Delivery address</label>
-          <textarea id="profileAddress" rows="2" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 bg-white outline-none focus:border-olive resize-none"></textarea>
+          <label class="text-sm font-medium block mb-1.5">Address</label>
+          <textarea id="addrText" required rows="2" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 bg-white outline-none focus:border-olive resize-none"></textarea>
         </div>
         <div class="flex gap-3 items-start">
           <div class="flex-1">
-            <label class="text-sm font-medium block mb-2">Pincode</label>
-            <input id="profilePincode" pattern="[0-9]{6}" placeholder="6-digit pincode" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+            <label class="text-sm font-medium block mb-1.5">Pincode</label>
+            <input id="addrPin" required pattern="[0-9]{6}" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
           </div>
-          <button type="button" id="useLocationBtn" class="mt-8 border border-ink/20 rounded-full px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-olive hover:text-olive transition-colors inline-flex items-center gap-1.5">
+          <button type="button" id="useLocationBtn" class="mt-7 border border-ink/20 rounded-full px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-olive hover:text-olive transition-colors inline-flex items-center gap-1.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Use my location
           </button>
         </div>
-        <div class="flex items-center gap-3">
-          <button type="submit" class="bg-olive text-cream px-6 py-2.5 rounded-full text-sm font-medium hover:bg-olivedark transition-colors">Save details</button>
-          <span id="profileSaveMsg" class="text-sm text-olive"></span>
-        </div>
+        <button type="submit" class="w-full bg-olive text-cream py-3 rounded-full font-medium hover:bg-olivedark transition-colors">Add address</button>
       </form>
-    </div>
-
-    <!-- Cart summary -->
-    <div class="mb-10">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="font-display text-xl">Your cart</h2>
-        <a href="cart.html" class="text-sm font-medium text-rust hover:underline">View cart →</a>
-      </div>
-      <div id="cartSummary" class="bg-card border border-ink/10 rounded-2xl p-5"></div>
     </div>
 
     <!-- Coupons -->
@@ -109,7 +106,16 @@
       </p>
     </div>
 
-    <!-- Order history -->
+    <!-- Cart -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-display text-xl">Your cart</h2>
+        <a href="cart.html" class="text-sm font-medium text-rust hover:underline">View cart →</a>
+      </div>
+      <div id="cartSummary" class="bg-card border border-ink/10 rounded-2xl p-5"></div>
+    </div>
+
+    <!-- Orders -->
     <div>
       <h2 class="font-display text-xl mb-4">Order history</h2>
       <div id="ordersList" class="space-y-4"></div>
@@ -122,159 +128,181 @@
 
 <script src="cart.js"></script>
 <script>
-  async function init() {
-    const user = await getCurrentUser();
-    document.getElementById('loadingState').classList.add('hidden');
+let user = null;
+function esc(s) { return String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 
-    if (!user) {
-      document.getElementById('signedOutState').classList.remove('hidden');
-      return;
-    }
+async function init() {
+  user = await getCurrentUser();
+  document.getElementById('loadingState').classList.add('hidden');
+  if (!user) { document.getElementById('signedOutState').classList.remove('hidden'); return; }
+  document.getElementById('signedInState').classList.remove('hidden');
+  document.getElementById('userName').textContent = (user.user_metadata || {}).full_name || (user.user_metadata || {}).name || 'Welcome back';
+  document.getElementById('userEmail').textContent = user.email || '';
+  loadCartSummary();
+  loadAddressBook();
+  loadCoupons();
+  loadOrders();
+}
 
-    document.getElementById('signedInState').classList.remove('hidden');
-
-    // Customer details
-    const meta = user.user_metadata || {};
-    document.getElementById('userName').textContent = meta.full_name || meta.name || 'Welcome back';
-    document.getElementById('userEmail').textContent = user.email || '';
-    if (meta.avatar_url || meta.picture) {
-      const avatar = document.getElementById('userAvatar');
-      avatar.src = meta.avatar_url || meta.picture;
-      avatar.alt = meta.full_name || 'Profile photo';
-      avatar.classList.remove('hidden');
-      document.getElementById('userAvatarFallback').classList.add('hidden');
-    }
-
-    // Load saved delivery details (if any)
-    try {
-      const profile = await getProfile();
-      if (profile) {
-        if (profile.name) document.getElementById('profileName').value = profile.name;
-        if (profile.phone) document.getElementById('profilePhone').value = profile.phone;
-        if (profile.address) document.getElementById('profileAddress').value = profile.address;
-        if (profile.pincode) document.getElementById('profilePincode').value = profile.pincode;
-      }
-    } catch (e) { /* profile table may not exist yet */ }
-
-    document.getElementById('profileForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      const msg = document.getElementById('profileSaveMsg');
-      try {
-        await saveProfile({
-          name: document.getElementById('profileName').value.trim(),
-          phone: document.getElementById('profilePhone').value.trim(),
-          address: document.getElementById('profileAddress').value.trim(),
-          pincode: document.getElementById('profilePincode').value.trim()
-        });
-        msg.textContent = 'Saved!';
-        setTimeout(() => { msg.textContent = ''; }, 2000);
-      } catch (err) {
-        alert('Could not save: ' + err.message);
-      }
-      btn.disabled = false;
-    });
-
-    document.getElementById('useLocationBtn').addEventListener('click', () => {
-      if (!navigator.geolocation) { showToast('Location not available on this device'); return; }
-      navigator.geolocation.getCurrentPosition(async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-          const data = await res.json();
-          const addr = data.address || {};
-          const parts = [addr.road, addr.suburb || addr.neighbourhood, addr.city || addr.town || addr.county, addr.state].filter(Boolean);
-          document.getElementById('profileAddress').value = parts.join(', ');
-          if (addr.postcode) document.getElementById('profilePincode').value = addr.postcode;
-          showToast('Location filled — please verify');
-        } catch (err) {
-          document.getElementById('profileAddress').value = `${latitude}, ${longitude}`;
-          showToast('Location filled — please verify');
-        }
-      }, () => showToast('Could not get your location'));
-    });
-
-    // Cart summary (from shared localStorage cart)
-    const cart = getCart();
-    const cartWrap = document.getElementById('cartSummary');
-    if (cart.length === 0) {
-      cartWrap.innerHTML = `<p class="text-ink/50 text-sm">Your cart is empty. <a href="product.html" class="text-rust hover:underline">Shop the range →</a></p>`;
-    } else {
-      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const itemsHtml = cart.map(i => `${i.qty} × ${i.oilName} (${i.size})`).join(', ');
-      cartWrap.innerHTML = `<p class="text-sm text-ink/70 mb-2">${itemsHtml}</p><p class="font-semibold">₹ ${total}</p>`;
-    }
-
-    // Coupons for THIS customer only.
-    // Admin creates coupons per customer (coupons.email = their email, or NULL = everyone).
-    try {
-      const myEmail = (user.email || '').trim().toLowerCase();
-      const { data: all } = await supabaseClient
-        .from('coupons')
-        .select('code, percent_off, email')
-        .eq('active', true);
-      const coupons = (all || []).filter(c => {
-        const ce = (c.email || '').trim().toLowerCase();
-        return !ce || ce === myEmail;
-      });
-
-      const couponsWrap = document.getElementById('couponsList');
-      if (!coupons.length) {
-        document.getElementById('noCoupons').classList.remove('hidden');
-      } else {
-        coupons.forEach(c => {
-          const card = document.createElement('div');
-          card.className = 'bg-card border border-ink/10 rounded-2xl p-4 flex items-center justify-between';
-          card.innerHTML = `
-            <div>
-              <div class="font-display text-lg">${c.code}</div>
-              <div class="text-ink/50 text-xs">${c.percent_off}% off your next order</div>
-            </div>
-            <span class="text-xs text-olive font-medium">Active</span>
-          `;
-          couponsWrap.appendChild(card);
-        });
-      }
-    } catch (e) {
-      document.getElementById('noCoupons').classList.remove('hidden');
-    }
-
-    // Fetch this user's past orders (RLS ensures they only see their own)
-    const { data: orders, error } = await supabaseClient
-      .from('orders')
-      .select('id, status, total, created_at, order_items(oil_name, size, qty, price)')
-      .order('created_at', { ascending: false });
-
-    const list = document.getElementById('ordersList');
-    if (error || !orders || orders.length === 0) {
-      document.getElementById('noOrders').classList.remove('hidden');
-      return;
-    }
-
-    orders.forEach(order => {
-      const card = document.createElement('div');
-      card.className = 'bg-card border border-ink/10 rounded-2xl p-5';
-      const itemsHtml = order.order_items.map(i => `${i.qty} × ${i.oil_name} (${i.size})`).join(', ');
-      card.innerHTML = `
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-sm font-medium capitalize">${order.status}</span>
-          <span class="text-sm text-ink/50">${new Date(order.created_at).toLocaleDateString()}</span>
-        </div>
-        <div class="text-sm text-ink/70 mb-2">${itemsHtml}</div>
-        <div class="font-semibold">₹ ${order.total}</div>
-      `;
-      list.appendChild(card);
-    });
+function loadCartSummary() {
+  const cart = getCart();
+  const wrap = document.getElementById('cartSummary');
+  if (!cart.length) {
+    wrap.innerHTML = `<p class="text-ink/50 text-sm">Your cart is empty. <a href="product.html" class="text-rust hover:underline">Shop the range →</a></p>`;
+  } else {
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    wrap.innerHTML = `<p class="text-sm text-ink/70 mb-2">${cart.map(i => `${i.qty} × ${i.oilName} (${i.size})`).join(', ')}</p><p class="font-semibold">₹ ${total}</p>`;
   }
+}
 
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-    window.location.href = getSitePageUrl('index.html');
+async function loadAddressBook() {
+  const list = await getAddresses();
+  const wrap = document.getElementById('addressBook');
+  wrap.innerHTML = '';
+  list.forEach(a => {
+    const badge = a.approved
+      ? '<span class="text-[10px] bg-olive/10 text-olive px-2 py-0.5 rounded-full uppercase">Approved</span>'
+      : '<span class="text-[10px] bg-rust/10 text-rust px-2 py-0.5 rounded-full uppercase">Pending approval</span>';
+    const el = document.createElement('div');
+    el.className = 'bg-card border border-ink/10 rounded-2xl p-4 flex items-start justify-between gap-3';
+    el.innerHTML = `
+      <div>
+        <div class="flex items-center gap-2 flex-wrap"><span class="font-display">${esc(a.label || 'Home')}</span>${badge}</div>
+        <div class="text-sm text-ink/70 mt-1">${esc(a.name || '')} · ${esc(a.phone || '')}<br>${esc(a.address || '')} — ${esc(a.pincode || '')}</div>
+      </div>
+      <button data-id="${a.id}" class="delete-addr text-sm text-rust hover:underline shrink-0">Delete</button>`;
+    wrap.appendChild(el);
+  });
+  document.querySelectorAll('.delete-addr').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if (!confirm('Delete this address?')) return;
+      try { await deleteAddress(btn.dataset.id); loadAddressBook(); } catch (err) { alert('Could not delete: ' + err.message); }
+    });
+  });
+}
+
+document.getElementById('addAddressForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  try {
+    await addAddress({
+      label: document.getElementById('addrLabel').value.trim() || 'Home',
+      name: document.getElementById('addrName').value.trim(),
+      phone: document.getElementById('addrPhone').value.trim(),
+      address: document.getElementById('addrText').value.trim(),
+      pincode: document.getElementById('addrPin').value.trim()
+    });
+    e.target.reset();
+    showToast('Address submitted for approval');
+    loadAddressBook();
+  } catch (err) { alert('Could not add: ' + err.message); }
+  btn.disabled = false;
+});
+
+document.getElementById('useLocationBtn').addEventListener('click', () => {
+  if (!navigator.geolocation) { showToast('Location not available'); return; }
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const { latitude, longitude } = pos.coords;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+      const data = await res.json();
+      const addr = data.address || {};
+      const parts = [addr.road, addr.suburb || addr.neighbourhood, addr.city || addr.town || addr.county, addr.state].filter(Boolean);
+      document.getElementById('addrText').value = parts.join(', ');
+      if (addr.postcode) document.getElementById('addrPin').value = addr.postcode;
+      showToast('Location filled — please verify');
+    } catch (err) {
+      document.getElementById('addrText').value = latitude + ', ' + longitude;
+      showToast('Location filled — please verify');
+    }
+  }, () => showToast('Could not get your location'));
+});
+
+async function loadCoupons() {
+  try {
+    const myEmail = (user.email || '').trim().toLowerCase();
+    const { data: all } = await supabaseClient.from('coupons').select('code, percent_off, email').eq('active', true);
+    const coupons = (all || []).filter(c => { const ce = (c.email || '').trim().toLowerCase(); return !ce || ce === myEmail; });
+    const wrap = document.getElementById('couponsList');
+    if (!coupons.length) { document.getElementById('noCoupons').classList.remove('hidden'); return; }
+    coupons.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'bg-card border border-ink/10 rounded-2xl p-4 flex items-center justify-between';
+      card.innerHTML = `<div><div class="font-display text-lg">${c.code}</div><div class="text-ink/50 text-xs">${c.percent_off}% off your next order</div></div><span class="text-xs text-olive font-medium">Active</span>`;
+      wrap.appendChild(card);
+    });
+  } catch (e) { document.getElementById('noCoupons').classList.remove('hidden'); }
+}
+
+function trackLevel(status) {
+  if (status === 'cancelled') return 0;
+  return { placed: 0, accepted: 1, packed: 2, shipped: 3, delivered: 4 }[status] ?? 0;
+}
+function trackingRails(status) {
+  const lvl = trackLevel(status);
+  return ['Placed', 'Accepted', 'Packed', 'Shipped', 'Delivered']
+    .map((label, i) => `<div class="flex-1 min-w-0"><div class="h-1.5 ${i <= lvl ? 'bg-olive' : 'bg-ink/15'} rounded-full mb-1"></div><div class="text-[10px] ${i <= lvl ? 'text-ink font-semibold' : 'text-ink/40'}">${label}</div></div>`)
+    .join('');
+}
+
+async function loadOrders() {
+  const { data: orders, error } = await supabaseClient
+    .from('orders')
+    .select('id, status, total, created_at, order_items(oil, oil_name, size, qty, price)')
+    .order('created_at', { ascending: false });
+  const list = document.getElementById('ordersList');
+  if (error || !orders || orders.length === 0) { document.getElementById('noOrders').classList.remove('hidden'); return; }
+
+  orders.forEach(order => {
+    const items = (order.order_items || []).map(i => `${i.qty} × ${i.oil_name} (${i.size})`).join(', ');
+    const cancellable = ['placed', 'accepted', 'packed', 'shipped'].includes(order.status);
+    const card = document.createElement('div');
+    card.className = 'bg-card border border-ink/10 rounded-2xl p-5';
+    card.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium capitalize">${order.status}</span>
+        <span class="text-sm text-ink/50">${new Date(order.created_at).toLocaleDateString()}</span>
+      </div>
+      <div class="text-sm text-ink/70 mb-3">${items}</div>
+      <div class="font-semibold mb-4">₹ ${order.total}</div>
+      <div class="flex gap-1 mb-3">${trackingRails(order.status)}</div>
+      <div class="flex gap-3 pt-2 border-t border-ink/10">
+        ${cancellable ? `<button class="cancel-order text-xs text-rust hover:underline" data-id="${order.id}">Cancel / Return</button>` : ''}
+        <button class="buy-again text-xs text-olive hover:underline ml-auto" data-id="${order.id}">Buy again</button>
+      </div>`;
+    list.appendChild(card);
   });
 
-  init();
-</script>
+  document.querySelectorAll('.cancel-order').forEach(btn => btn.addEventListener('click', () => cancelOrder(btn.dataset.id)));
+  document.querySelectorAll('.buy-again').forEach(btn => btn.addEventListener('click', () => buyAgain(btn.dataset.id)));
+}
 
+async function cancelOrder(id) {
+  if (!confirm('Cancel this order?')) return;
+  try {
+    const { data: o } = await supabaseClient.from('orders').select('total, email').eq('id', id).single();
+    await supabaseClient.from('refunds').insert({ order_id: id, email: o.email || null, amount: Number(o.total || 0), reason: 'Customer cancellation', source: 'customer', status: 'approved' });
+    await supabaseClient.from('orders').update({ status: 'cancelled' }).eq('id', id);
+    showToast('Order cancelled');
+    loadOrders();
+  } catch (err) { alert('Could not cancel: ' + err.message); }
+}
+
+async function buyAgain(id) {
+  try {
+    const { data: o } = await supabaseClient.from('orders').select('order_items(oil, oil_name, size, qty, price)').eq('id', id).single();
+    (o.order_items || []).forEach(it => addToCart(it.oil, it.oil_name, it.size, it.qty, it.price));
+    window.location.href = 'cart.html';
+  } catch (err) { alert('Could not reorder: ' + err.message); }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  window.location.href = getSitePageUrl('index.html');
+});
+
+init();
+</script>
 </body>
 </html>

@@ -42,3 +42,81 @@ async function saveProfile(fields) {
   );
   if (error) throw error;
 }
+
+// ---- Address book (admin must approve before checkout) ----
+async function getAddresses() {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const { data } = await supabaseClient.from('addresses').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+  return data || [];
+}
+
+async function addAddress(fields) {
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Not signed in');
+  const { error } = await supabaseClient.from('addresses').insert({ user_id: user.id, approved: false, ...fields });
+  if (error) throw error;
+}
+
+async function deleteAddress(id) {
+  const { error } = await supabaseClient.from('addresses').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// ---- Delivery pincodes (a live set maintained by the admin) ----
+let _pinCache = null;
+async function getServicePincodes() {
+  if (_pinCache) return _pinCache;
+  const { data } = await supabaseClient.from('service_pincodes').select('pincode');
+  _pinCache = new Set((data || []).map(r => r.pincode));
+  return _pinCache;
+}
+
+// ---- Per-oil reviews ----
+async function getProductReviews(oil) {
+  const { data } = await supabaseClient
+    .from('product_reviews')
+    .select('*')
+    .eq('oil', oil)
+    .order('created_at', { ascending: false });
+  return data || [];
+}
+
+// ---- Cross-device cart sync ----
+async function saveCartToServer() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  const items = JSON.stringify(getCart());
+  try {
+    await supabaseClient.from('carts').upsert(
+      { user_id: user.id, items, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id' }
+    );
+  } catch (e) { /* offline */ }
+}
+
+async function loadCartFromServer() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  const { data } = await supabaseClient.from('carts').select('items').eq('user_id', user.id).maybeSingle();
+  if (data && data.items && data.items.length) {
+    try { saveCartFromServer(JSON.parse(data.items)); } catch (e) { /* ignore */ }
+  }
+}
+
+// ---- Wishlist ----
+async function toggleWishlist(oil) {
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Not signed in');
+  const { data: existing } = await supabaseClient.from('wishlist').select('oil').eq('user_id', user.id).eq('oil', oil).maybeSingle();
+  if (existing) await supabaseClient.from('wishlist').delete().eq('user_id', user.id).eq('oil', oil);
+  else await supabaseClient.from('wishlist').insert({ user_id: user.id, oil });
+  return !existing;
+}
+
+async function isWishlisted(oil) {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const { data } = await supabaseClient.from('wishlist').select('oil').eq('user_id', user.id).eq('oil', oil).maybeSingle();
+  return !!data;
+}

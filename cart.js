@@ -14,6 +14,16 @@ function getCart() {
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   updateCartBadge();
+  if (window.supabaseClient && typeof saveCartToServer === 'function') {
+    saveCartToServer().catch(() => {});
+  }
+}
+
+// Used by the cross-device sync helper in supabase-client.js to replace
+// the local cart (avoids an infinite save loop).
+function saveCartFromServer(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartBadge();
 }
 
 function addToCart(oil, oilName, size, qty, price) {
@@ -52,4 +62,9 @@ function showToast(message) {
   toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2200);
 }
 
-document.addEventListener('DOMContentLoaded', updateCartBadge);
+document.addEventListener('DOMContentLoaded', async () => {
+  updateCartBadge();
+  if (window.supabaseClient && typeof loadCartFromServer === 'function') {
+    try { await loadCartFromServer(); } catch (e) { /* offline */ }
+  }
+});
