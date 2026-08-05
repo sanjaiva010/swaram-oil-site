@@ -206,16 +206,21 @@
       cartWrap.innerHTML = `<p class="text-sm text-ink/70 mb-2">${itemsHtml}</p><p class="font-semibold">₹ ${total}</p>`;
     }
 
-    // Coupons available for this customer — populated later from the admin dashboard.
-    // Table stays queried live so coupons appear automatically once the admin adds them.
+    // Coupons for THIS customer only.
+    // Admin creates coupons per customer (coupons.email = their email, or NULL = everyone).
     try {
-      const { data: coupons } = await supabaseClient
+      const myEmail = (user.email || '').trim().toLowerCase();
+      const { data: all } = await supabaseClient
         .from('coupons')
-        .select('code, percent_off')
+        .select('code, percent_off, email')
         .eq('active', true);
+      const coupons = (all || []).filter(c => {
+        const ce = (c.email || '').trim().toLowerCase();
+        return !ce || ce === myEmail;
+      });
 
       const couponsWrap = document.getElementById('couponsList');
-      if (!coupons || coupons.length === 0) {
+      if (!coupons.length) {
         document.getElementById('noCoupons').classList.remove('hidden');
       } else {
         coupons.forEach(c => {

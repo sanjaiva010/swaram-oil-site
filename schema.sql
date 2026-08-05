@@ -23,12 +23,17 @@ create table if not exists order_items (
   price numeric not null
 );
 
--- Coupons (for later use)
+-- Coupons.  email = NULL means valid for everyone;
+-- set to an email means valid for that customer ONLY.
+-- (The admin site assigns per-customer coupons.)
 create table if not exists coupons (
   code text primary key,
   percent_off int not null,
+  email text,
   active boolean default true
 );
+
+alter table coupons add column if not exists email text;
 
 -- ---- Row Level Security: customers can only see their own orders ----
 alter table orders enable row level security;
