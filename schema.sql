@@ -34,20 +34,24 @@ create table if not exists coupons (
 alter table orders enable row level security;
 alter table order_items enable row level security;
 
+drop policy if exists "Users can view their own orders" on orders;
 create policy "Users can view their own orders"
   on orders for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert their own orders" on orders;
 create policy "Users can insert their own orders"
   on orders for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can view items in their own orders" on order_items;
 create policy "Users can view items in their own orders"
   on order_items for select
   using (
     order_id in (select id from orders where user_id = auth.uid())
   );
 
+drop policy if exists "Users can insert items into their own orders" on order_items;
 create policy "Users can insert items into their own orders"
   on order_items for insert
   with check (
@@ -70,14 +74,17 @@ create table if not exists profiles (
 
 alter table profiles enable row level security;
 
+drop policy if exists "Users can view their own profile" on profiles;
 create policy "Users can view their own profile"
   on profiles for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert their own profile" on profiles;
 create policy "Users can insert their own profile"
   on profiles for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update their own profile" on profiles;
 create policy "Users can update their own profile"
   on profiles for update
   using (auth.uid() = user_id);
@@ -96,10 +103,12 @@ create table if not exists reviews (
 
 alter table reviews enable row level security;
 
+drop policy if exists "Anyone can read reviews" on reviews;
 create policy "Anyone can read reviews"
   on reviews for select
   using (true);
 
+drop policy if exists "Authenticated users can add reviews" on reviews;
 create policy "Authenticated users can add reviews"
   on reviews for insert
   with check (auth.role() = 'authenticated');
