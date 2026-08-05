@@ -54,6 +54,66 @@ create policy "Users can insert items into their own orders"
     order_id in (select id from orders where user_id = auth.uid())
   );
 
+-- ============================================
+-- Customer profiles (name, phone, address)
+-- Collected at login and pre-filled at checkout.
+-- ============================================
+create table if not exists profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  name text,
+  phone text,
+  address text,
+  pincode text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table profiles enable row level security;
+
+create policy "Users can view their own profile"
+  on profiles for select
+  using (auth.uid() = user_id);
+
+create policy "Users can insert their own profile"
+  on profiles for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can update their own profile"
+  on profiles for update
+  using (auth.uid() = user_id);
+
+-- ============================================
+-- Customer reviews (stored in the DB so they
+-- persist for everyone, unlike localStorage)
+-- ============================================
+create table if not exists reviews (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  rating int not null check (rating between 1 and 5),
+  text text not null,
+  created_at timestamptz default now()
+);
+
+alter table reviews enable row level security;
+
+create policy "Anyone can read reviews"
+  on reviews for select
+  using (true);
+
+create policy "Authenticated users can add reviews"
+  on reviews for insert
+  with check (auth.role() = 'authenticated');
+
+-- ============================================
+-- Delivery details on orders (name, phone,
+-- address) so the admin can deliver.
+-- ============================================
+alter table orders add column if not exists email text;
+alter table orders add column if not exists name text;
+alter table orders add column if not exists phone text;
+alter table orders add column if not exists address text;
+alter table orders add column if not exists pincode text;
+
 -- Note: the admin dashboard (built separately) will need its own
 -- service-role connection to read/update ALL orders — that's normal,
 -- the service role key bypasses RLS and must never be used in the

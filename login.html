@@ -92,6 +92,14 @@
   // Requires supabase-client.js to have your project URL + anon key filled in,
   // and Google + Email providers enabled in Supabase: Authentication → Providers.
 
+  // If already logged in, go straight to the account page.
+  (async function () {
+    const user = await getCurrentUser();
+    if (user) {
+      window.location.href = getSitePageUrl('account.html');
+    }
+  })();
+
   document.getElementById('googleBtn').addEventListener('click', async () => {
     // Do not use window.location.origin + '/account.html' here: GitHub Pages
     // project sites live inside their repository folder.

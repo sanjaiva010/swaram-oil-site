@@ -57,6 +57,40 @@
       </div>
     </div>
 
+    <!-- Delivery details -->
+    <div class="mb-10">
+      <h2 class="font-display text-xl mb-2">Delivery details</h2>
+      <p class="text-ink/50 text-sm mb-4">We'll pre-fill these at checkout — edit them here anytime, or use your current location.</p>
+      <form id="profileForm" class="bg-card border border-ink/10 rounded-2xl p-5 space-y-4">
+        <div>
+          <label class="text-sm font-medium block mb-2">Full name</label>
+          <input id="profileName" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+        </div>
+        <div>
+          <label class="text-sm font-medium block mb-2">Phone number</label>
+          <input id="profilePhone" type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+        </div>
+        <div>
+          <label class="text-sm font-medium block mb-2">Delivery address</label>
+          <textarea id="profileAddress" rows="2" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 bg-white outline-none focus:border-olive resize-none"></textarea>
+        </div>
+        <div class="flex gap-3 items-start">
+          <div class="flex-1">
+            <label class="text-sm font-medium block mb-2">Pincode</label>
+            <input id="profilePincode" pattern="[0-9]{6}" placeholder="6-digit pincode" class="w-full border border-ink/20 rounded-full px-4 py-2.5 bg-white outline-none focus:border-olive">
+          </div>
+          <button type="button" id="useLocationBtn" class="mt-8 border border-ink/20 rounded-full px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-olive hover:text-olive transition-colors inline-flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Use my location
+          </button>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="submit" class="bg-olive text-cream px-6 py-2.5 rounded-full text-sm font-medium hover:bg-olivedark transition-colors">Save details</button>
+          <span id="profileSaveMsg" class="text-sm text-olive"></span>
+        </div>
+      </form>
+    </div>
+
     <!-- Cart summary -->
     <div class="mb-10">
       <div class="flex items-center justify-between mb-4">
@@ -110,6 +144,56 @@
       avatar.classList.remove('hidden');
       document.getElementById('userAvatarFallback').classList.add('hidden');
     }
+
+    // Load saved delivery details (if any)
+    try {
+      const profile = await getProfile();
+      if (profile) {
+        if (profile.name) document.getElementById('profileName').value = profile.name;
+        if (profile.phone) document.getElementById('profilePhone').value = profile.phone;
+        if (profile.address) document.getElementById('profileAddress').value = profile.address;
+        if (profile.pincode) document.getElementById('profilePincode').value = profile.pincode;
+      }
+    } catch (e) { /* profile table may not exist yet */ }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      const msg = document.getElementById('profileSaveMsg');
+      try {
+        await saveProfile({
+          name: document.getElementById('profileName').value.trim(),
+          phone: document.getElementById('profilePhone').value.trim(),
+          address: document.getElementById('profileAddress').value.trim(),
+          pincode: document.getElementById('profilePincode').value.trim()
+        });
+        msg.textContent = 'Saved!';
+        setTimeout(() => { msg.textContent = ''; }, 2000);
+      } catch (err) {
+        alert('Could not save: ' + err.message);
+      }
+      btn.disabled = false;
+    });
+
+    document.getElementById('useLocationBtn').addEventListener('click', () => {
+      if (!navigator.geolocation) { showToast('Location not available on this device'); return; }
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+          const data = await res.json();
+          const addr = data.address || {};
+          const parts = [addr.road, addr.suburb || addr.neighbourhood, addr.city || addr.town || addr.county, addr.state].filter(Boolean);
+          document.getElementById('profileAddress').value = parts.join(', ');
+          if (addr.postcode) document.getElementById('profilePincode').value = addr.postcode;
+          showToast('Location filled — please verify');
+        } catch (err) {
+          document.getElementById('profileAddress').value = `${latitude}, ${longitude}`;
+          showToast('Location filled — please verify');
+        }
+      }, () => showToast('Could not get your location'));
+    });
 
     // Cart summary (from shared localStorage cart)
     const cart = getCart();

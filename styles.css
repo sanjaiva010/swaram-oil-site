@@ -173,6 +173,30 @@ a:focus-visible, button:focus-visible {
   .bob { animation: none !important; }
 }
 
+/* Scroll-reveal animation driven by IntersectionObserver (adds .revealed) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(.22,.68,0,1), transform 0.7s cubic-bezier(.22,.68,0,1);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Ensure product bottle images never get cropped */
+img[data-keep].object-contain,
+.main-image { object-fit: contain !important; }
+
+/* Responsive guard: keep bottle/hero images proportional on small screens */
+@media (max-width: 640px) {
+  h1 { font-size: clamp(2rem, 9vw, 2.6rem); }
+}
+
 .reel-slide {
   position: absolute;
   inset: 0;

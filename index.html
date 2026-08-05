@@ -27,7 +27,7 @@
 
 <!-- NAV -->
 <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
     <a href="index.html" class="flex items-center gap-3">
       <img src="images/logo-square.png" alt="Swaram logo" class="w-11 h-11 rounded-full object-cover shadow-md">
       <div class="leading-tight">
@@ -42,9 +42,9 @@
       <a href="product.html" class="hover:text-rust transition-colors">Shop</a>
     </nav>
     <div class="flex items-center gap-4 relative">
-      <a href="login.html" aria-label="Login" class="flex items-center gap-1.5 text-sm font-medium text-ink/70 hover:text-rust">
+      <a id="accountLink" href="login.html" aria-label="Login" class="flex items-center gap-1.5 text-sm font-medium text-ink/70 hover:text-rust">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span class="hidden sm:inline">Login</span>
+        <span id="accountLabel" class="hidden sm:inline">Login</span>
       </a>
       <button id="searchToggle" aria-label="Search" class="text-ink/70 hover:text-ink">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -53,15 +53,24 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg>
         <span class="cart-badge absolute -top-2 -right-2 bg-rust text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
       </a>
-      <form id="searchForm" class="hidden absolute top-12 right-0 bg-card border border-ink/10 rounded-2xl shadow-lg p-2 w-64">
-        <input id="searchInput" type="text" placeholder="Search groundnut, coconut..." class="w-full px-3 py-2 text-sm outline-none bg-transparent">
-      </form>
+      <button id="menuBtn" aria-label="Menu" class="md:hidden text-ink/70 text-2xl leading-none">☰</button>
     </div>
   </div>
+  <!-- Mobile nav -->
+  <div id="mobileNav" class="hidden md:hidden border-t border-ink/10 bg-cream px-6 py-4 space-y-3 text-sm font-medium text-ink/80">
+    <a href="index.html" class="block">Home</a>
+    <a href="#range" class="block">Our Oils</a>
+    <a href="#story" class="block">The Chekku Method</a>
+    <a href="product.html" class="block">Shop</a>
+    <a id="mobileAccountLink" href="login.html" class="block text-rust">Login</a>
+  </div>
+  <form id="searchForm" class="hidden absolute top-20 right-4 bg-card border border-ink/10 rounded-2xl shadow-lg p-2 w-64 z-50">
+    <input id="searchInput" type="text" placeholder="Search groundnut, coconut..." class="w-full px-3 py-2 text-sm outline-none bg-transparent">
+  </form>
 </header>
 
 <!-- HERO -->
-<section class="max-w-7xl mx-auto px-6 pt-14 pb-8 relative overflow-hidden">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-8 relative overflow-hidden">
   <div class="drop bob" style="left:4%; top:10%; opacity:0.35; animation: bobFloat 7s ease-in-out infinite;"></div>
   <div class="drop bob" style="left:12%; top:55%; opacity:0.25; animation: bobFloat 5.5s ease-in-out infinite 1s;"></div>
   <div class="grid md:grid-cols-2 gap-10 items-center mb-16 relative">
@@ -84,7 +93,7 @@
       </div>
     </div>
 
-    <!-- Product card grid, mirrors reference: big card + 2 side cards -->
+    <!-- Product card grid: big card + 2 side cards -->
     <div class="relative">
       <div class="flex justify-end mb-3">
         <div class="w-20 h-20 press-mark rounded-full flex items-center justify-center bg-cream spin-slow">
@@ -92,27 +101,25 @@
         </div>
       </div>
       <div class="grid grid-cols-3 gap-4 items-stretch">
-        <a id="heroMainCard" href="product.html?oil=groundnut" class="col-span-2 rounded-3xl relative overflow-hidden block h-[420px]">
-          <img id="heroMainImg" src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-6 text-cream">
+        <a id="heroMainCard" href="product.html?oil=groundnut" class="col-span-2 rounded-3xl relative overflow-hidden block h-[420px] bg-card border border-ink/10">
+          <img id="heroMainImg" src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="absolute inset-0 w-full h-full object-contain p-6">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-ink">
             <h3 id="heroMainName" class="font-display text-lg underline decoration-goldlight/50 underline-offset-4">Groundnut Oil</h3>
             <div class="flex items-center justify-between mt-1">
-              <span class="font-semibold">₹ <span id="heroMainPrice">330</span> <span class="font-normal text-xs text-cream/70">Available in 3 sizes</span></span>
+              <span class="font-semibold">₹ <span id="heroMainPrice">330</span> <span class="font-normal text-xs text-ink/60">Available in 3 sizes</span></span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </div>
           </div>
         </a>
         <div class="flex flex-col gap-4">
-          <a href="product.html?oil=coconut" class="rounded-3xl relative overflow-hidden h-[202px]">
-            <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="absolute inset-0 w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent"></div>
-            <span class="absolute bottom-3 left-3 text-cream text-sm font-medium">Coconut</span>
+          <a href="product.html?oil=coconut" class="rounded-3xl relative overflow-hidden h-[202px] bg-card border border-ink/10 flex items-center justify-center p-3">
+            <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="w-full h-full object-contain">
+            <span class="absolute bottom-3 left-3 text-ink text-sm font-medium">Coconut</span>
           </a>
-          <a href="product.html?oil=gingelly" class="rounded-3xl relative overflow-hidden h-[202px]">
-            <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly oil bottle" class="absolute inset-0 w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent"></div>
-            <span class="absolute bottom-3 left-3 text-cream text-sm font-medium">Gingelly</span>
+          <a href="product.html?oil=gingelly" class="rounded-3xl relative overflow-hidden h-[202px] bg-card border border-ink/10 flex items-center justify-center p-3">
+            <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly oil bottle" class="w-full h-full object-contain">
+            <span class="absolute bottom-3 left-3 text-ink text-sm font-medium">Gingelly</span>
           </a>
         </div>
       </div>
@@ -124,7 +131,7 @@
     </div>
   </div>
 
-  <!-- Bottom row: testimonial card + thumbnails + rating, mirrors reference -->
+  <!-- Bottom row: testimonial card + thumbnails + rating -->
   <div class="grid md:grid-cols-[1.1fr_2fr_0.7fr] gap-5 items-stretch">
     <a href="#reviews" class="bg-olive text-cream rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden min-h-[190px]">
       <div class="text-goldlight text-sm">★★★★★</div>
@@ -136,21 +143,21 @@
 
     <div class="grid grid-cols-3 gap-4">
       <a href="product.html?oil=groundnut" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
-        <div class="h-28 overflow-hidden"><img src="images/groundnut-500ml.jpeg" class="w-full h-full object-cover" alt="Groundnut oil 500ml"></div>
+        <div class="h-28 flex items-center justify-center p-2"><img src="images/groundnut-500ml.jpeg" class="w-full h-full object-contain" alt="Groundnut oil 500ml"></div>
         <div class="p-3">
           <div class="text-sm font-semibold">₹ 170</div>
           <div class="text-xs text-ink/50">Groundnut 500ML</div>
         </div>
       </a>
       <a href="product.html?oil=coconut" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
-        <div class="h-28 overflow-hidden"><img src="images/coconut-500ml.jpeg" class="w-full h-full object-cover" alt="Coconut oil 500ml"></div>
+        <div class="h-28 flex items-center justify-center p-2"><img src="images/coconut-500ml.jpeg" class="w-full h-full object-contain" alt="Coconut oil 500ml"></div>
         <div class="p-3">
           <div class="text-sm font-semibold">₹ 200</div>
           <div class="text-xs text-ink/50">Coconut 500ML</div>
         </div>
       </a>
       <a href="product.html?oil=gingelly" class="bg-card border border-ink/10 rounded-3xl overflow-hidden flex flex-col hover:border-olive transition-colors">
-        <div class="h-28 overflow-hidden"><img src="images/gingelly-500ml.jpeg" class="w-full h-full object-cover" alt="Gingelly oil 500ml"></div>
+        <div class="h-28 flex items-center justify-center p-2"><img src="images/gingelly-500ml.jpeg" class="w-full h-full object-contain" alt="Gingelly oil 500ml"></div>
         <div class="p-3">
           <div class="text-sm font-semibold">₹ 230</div>
           <div class="text-xs text-ink/50">Gingelly 500ML</div>
@@ -160,7 +167,7 @@
 
     <a href="#reviews" class="flex flex-col items-center justify-center bg-card border border-ink/10 rounded-3xl p-4 hover:border-olive transition-colors">
       <div class="font-display text-4xl text-rust">4.8</div>
-      <div class="text-ink/50 text-xs mt-1">62 Reviews</div>
+      <div class="text-ink/50 text-xs mt-1"><span id="reviewCount">62</span> Reviews</div>
       <div class="text-gold text-sm mt-1">★★★★★</div>
     </a>
   </div>
@@ -177,8 +184,8 @@
 </section>
 
 <!-- RANGE -->
-<section id="range" class="max-w-7xl mx-auto px-6 py-24">
-  <div class="flex items-end justify-between mb-12">
+<section id="range" class="max-w-7xl mx-auto px-4 sm:px-6 py-24">
+  <div class="flex items-end justify-between mb-12 reveal">
     <div>
       <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">OUR RANGE</p>
       <h2 class="font-display text-4xl">Three oils, one method</h2>
@@ -186,11 +193,11 @@
     <a href="product.html" class="hidden md:inline text-sm font-medium text-ink/70 hover:text-rust">View all sizes →</a>
   </div>
 
-  <div class="grid md:grid-cols-3 gap-6">
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     <!-- Groundnut -->
-    <a href="product.html?oil=groundnut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
-      <div class="h-72 overflow-hidden">
-        <img src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+    <a href="product.html?oil=groundnut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col reveal">
+      <div class="h-72 flex items-center justify-center p-6 bg-creamtwo/40">
+        <img src="images/groundnut-1l.jpeg" alt="Swaram groundnut oil bottle" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
       </div>
       <div class="p-6">
         <h3 class="font-display text-xl mb-1">Groundnut Oil</h3>
@@ -202,9 +209,9 @@
       </div>
     </a>
     <!-- Coconut -->
-    <a href="product.html?oil=coconut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
-      <div class="h-72 overflow-hidden">
-        <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+    <a href="product.html?oil=coconut" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col reveal">
+      <div class="h-72 flex items-center justify-center p-6 bg-creamtwo/40">
+        <img src="images/coconut-1l.jpeg" alt="Swaram coconut oil bottle" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
       </div>
       <div class="p-6">
         <h3 class="font-display text-xl mb-1">Coconut Oil</h3>
@@ -216,9 +223,9 @@
       </div>
     </a>
     <!-- Gingelly -->
-    <a href="product.html?oil=gingelly" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col">
-      <div class="h-72 overflow-hidden">
-        <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly sesame oil bottle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+    <a href="product.html?oil=gingelly" class="group rounded-3xl bg-card border border-ink/10 overflow-hidden flex flex-col reveal">
+      <div class="h-72 flex items-center justify-center p-6 bg-creamtwo/40">
+        <img src="images/gingelly-500ml.jpeg" alt="Swaram gingelly sesame oil bottle" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
       </div>
       <div class="p-6">
         <h3 class="font-display text-xl mb-1">Gingelly Oil</h3>
@@ -234,8 +241,8 @@
 
 <!-- STORY -->
 <section id="story" class="bg-creamtwo">
-  <div class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-14 items-center">
-    <div class="order-2 md:order-1">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-24 grid md:grid-cols-2 gap-14 items-center">
+    <div class="order-2 md:order-1 reveal">
       <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">THE CHEKKU METHOD</p>
       <h2 class="font-display text-4xl mb-6 leading-tight">Pressed the way it's<br>always been done</h2>
       <p class="text-ink/70 leading-relaxed mb-6">
@@ -256,17 +263,17 @@
         </div>
       </div>
     </div>
-    <div class="order-1 md:order-2 flex justify-center">
-      <img src="images/groundnut-5l.jpeg" alt="Swaram 5 litre groundnut oil bottle" class="h-96 bottle-shadow rounded-2xl object-cover">
+    <div class="order-1 md:order-2 flex justify-center reveal">
+      <img src="images/groundnut-5l.jpeg" alt="Swaram 5 litre groundnut oil bottle" class="h-80 sm:h-96 bottle-shadow rounded-2xl object-contain bg-card border border-ink/10 p-4">
     </div>
   </div>
 </section>
 
 <!-- LIFESTYLE REEL -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-  <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">IN EVERY KITCHEN</p>
-  <h2 class="font-display text-4xl mb-10">One oil, endless meals</h2>
-  <div id="reel" class="relative rounded-3xl overflow-hidden h-[420px] md:h-[520px] bg-ink">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-24">
+  <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3 reveal">IN EVERY KITCHEN</p>
+  <h2 class="font-display text-4xl mb-10 reveal">One oil, endless meals</h2>
+  <div id="reel" class="relative rounded-3xl overflow-hidden h-[320px] md:h-[520px] bg-ink">
     <div id="reelTrack" class="absolute inset-0"></div>
     <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10" id="reelDots"></div>
   </div>
@@ -281,7 +288,7 @@
   <div class="drop" style="left:79%; animation-duration:3.3s; animation-delay:1.7s;"></div>
   <div class="drop" style="left:91%; animation-duration:4s; animation-delay:.3s;"></div>
 
-  <div class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-14 items-center relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-24 grid md:grid-cols-2 gap-14 items-center relative">
     <div>
       <p class="text-goldlight font-semibold tracking-[0.2em] text-xs mb-3">SINCE WE STARTED PRESSING</p>
       <h2 class="font-display text-4xl mb-6 leading-tight">Litres of pure oil<br>pressed, and counting</h2>
@@ -297,31 +304,11 @@
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="max-w-7xl mx-auto px-6 py-24">
+<section id="reviews" class="max-w-7xl mx-auto px-4 sm:px-6 py-24">
   <p class="text-rust font-semibold tracking-[0.2em] text-xs mb-3">CUSTOMER REVIEWS</p>
   <h2 class="font-display text-4xl mb-3">4.8 out of 5</h2>
-  <p class="text-ink/50 text-sm mb-10">Based on 62 reviews — sample reviews shown below, replace with real customer feedback once you're live.</p>
-  <div id="reviewsGrid" class="grid md:grid-cols-3 gap-6">
-    <div class="bg-card border border-ink/10 rounded-3xl p-6">
-      <div class="text-gold text-sm mb-3">★★★★★</div>
-      <p class="text-ink/70 text-sm mb-4">"Tastes exactly like the oil my grandmother used to press at home. Rich aroma, not refined-tasting at all."</p>
-      <div class="text-sm font-medium">— Priya R.</div>
-    </div>
-    <div class="bg-card border border-ink/10 rounded-3xl p-6">
-      <div class="text-gold text-sm mb-3">★★★★★</div>
-      <p class="text-ink/70 text-sm mb-4">"The gingelly oil is fantastic for cooking and head massage both. Ordering the 5L can from now on."</p>
-      <div class="text-sm font-medium">— Karthik M.</div>
-    </div>
-    <div class="bg-card border border-ink/10 rounded-3xl p-6">
-      <div class="text-gold text-sm mb-3">★★★★★</div>
-      <p class="text-ink/70 text-sm mb-4">"Coconut oil doesn't have that sharp refined smell — genuinely cold-pressed, you can tell."</p>
-      <div class="text-sm font-medium">— Divya S.</div>
-    </div>
-    <button id="addReviewBtn" class="border-2 border-dashed border-ink/20 rounded-3xl p-6 flex flex-col items-center justify-center gap-2 text-ink/50 hover:border-olive hover:text-olive transition-colors min-h-[160px]">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-      <span class="text-sm font-medium">Add your review</span>
-    </button>
-  </div>
+  <p class="text-ink/50 text-sm mb-10">Real reviews from customers — add yours below.</p>
+  <div id="reviewsGrid" class="grid md:grid-cols-3 gap-6"></div>
 </section>
 
 <!-- Add review modal -->
@@ -343,7 +330,7 @@
       <textarea id="reviewText" required rows="3" placeholder="What did you think?" class="w-full border border-ink/20 rounded-2xl px-4 py-2.5 mb-5 bg-card outline-none focus:border-olive resize-none"></textarea>
       <div class="flex gap-3">
         <button type="button" id="cancelReviewBtn" class="flex-1 border border-ink/20 rounded-full py-2.5 font-medium">Cancel</button>
-        <button type="submit" class="flex-1 bg-olive text-cream rounded-full py-2.5 font-medium hover:bg-olivedark">Submit</button>
+        <button type="submit" id="submitReviewBtn" class="flex-1 bg-olive text-cream rounded-full py-2.5 font-medium hover:bg-olivedark">Submit</button>
       </div>
     </form>
   </div>
@@ -351,7 +338,7 @@
 
 <!-- FOOTER -->
 <footer class="bg-olivedark text-cream/80">
-  <div class="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid md:grid-cols-3 gap-10">
     <div>
       <div class="font-display text-lg text-cream mb-3">SWARAM</div>
       <p class="text-sm leading-relaxed max-w-xs">Swaram Agro Products, Palavanjipalayam, Veerapandi, Tirupur - 641605. Customer Care: 97870 34468</p>
@@ -378,6 +365,25 @@
 
 <script src="cart.js"></script>
 <script>
+  // ---- Header: show Account when signed in ----
+  (async function () {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        const name = (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email;
+        document.getElementById('accountLink').href = 'account.html';
+        document.getElementById('accountLabel').textContent = name ? name.split(' ')[0] : 'Account';
+        const m = document.getElementById('mobileAccountLink');
+        if (m) { m.href = 'account.html'; m.textContent = 'My Account'; }
+      }
+    } catch (e) { /* not signed in */ }
+  })();
+
+  // Mobile nav toggle
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.toggle('hidden');
+  });
+
   // Search toggle
   const searchToggle = document.getElementById('searchToggle');
   const searchForm = document.getElementById('searchForm');
@@ -397,7 +403,7 @@
     if (!searchForm.contains(e.target) && e.target !== searchToggle) searchForm.classList.add('hidden');
   });
 
-  // Hero carousel: cycles the featured oil in the big card
+  // Hero carousel
   const heroOils = [
     { key: 'groundnut', name: 'Groundnut Oil', img: getSwaramImage('images/groundnut-1l.jpeg'), price: 330, label: 'GROUNDNUT · 1 LITRE' },
     { key: 'coconut', name: 'Coconut Oil', img: getSwaramImage('images/coconut-1l.jpeg'), price: 400, label: 'COCONUT · 1 LITRE' },
@@ -422,9 +428,18 @@
     e.preventDefault(); heroIdx = (heroIdx - 1 + heroOils.length) % heroOils.length; renderHero();
   });
 
-  // Live litres counter — flip-clock style. Base starts above 5 lakh litres,
-  // and the running total is saved in the browser so reloading the page never
-  // resets it backward — it only ever keeps climbing.
+  // ---- Scroll reveal animations ----
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ---- Live litres counter ----
   const LITRE_BASE = 512450;
   const LITRE_KEY = 'swaram_litre_total';
   const flipWrap = document.getElementById('litreFlip');
@@ -443,10 +458,9 @@
     const str = Math.floor(value).toString();
     const groups = [];
     for (let i = str.length; i > 0; i -= 3) groups.unshift(str.slice(Math.max(0, i - 3), i));
-    const digits = groups.join(''); // digits without separators, we insert commas between groups
+    const digits = groups.join('');
 
     if (!lastDigits) {
-      // First render: build all tiles fresh
       flipWrap.innerHTML = '';
       groups.forEach((group, gi) => {
         group.split('').forEach(d => {
@@ -465,9 +479,6 @@
       lastDigits = digits;
       return;
     }
-
-    // Subsequent renders: only flip tiles whose digit actually changed.
-    // If digit count changed too (e.g. crossed a million), rebuild fresh.
     if (digits.length !== lastDigits.length) {
       lastDigits = null;
       renderFlip(value);
@@ -479,7 +490,7 @@
       if (!tile) return;
       if (lastDigits[i] !== d) {
         tile.classList.remove('flip');
-        void tile.offsetWidth; // restart animation
+        void tile.offsetWidth;
         tile.classList.add('flip');
         tile.querySelector('span').textContent = d;
       }
@@ -521,30 +532,59 @@
   }, { threshold: 0.4 });
   counterObserver.observe(flipWrap);
 
-  // ---- Add-your-review feature ----
-  const REVIEWS_KEY = 'swaram_user_reviews';
+  // ---- Reviews from Supabase (persist for everyone) ----
   let selectedStars = 5;
 
-  function getUserReviews() {
-    try { return JSON.parse(localStorage.getItem(REVIEWS_KEY)) || []; }
-    catch (e) { return []; }
-  }
-  function renderUserReviews() {
+  const DEFAULT_REVIEWS = [
+    { name: 'Priya R.', stars: 5, text: 'Tastes exactly like the oil my grandmother used to press at home. Rich aroma, not refined-tasting at all.' },
+    { name: 'Karthik M.', stars: 5, text: 'The gingelly oil is fantastic for cooking and head massage both. Ordering the 5L can from now on.' },
+    { name: 'Divya S.', stars: 5, text: 'Coconut oil doesn\'t have that sharp refined smell — genuinely cold-pressed, you can tell.' }
+  ];
+
+  async function loadReviews() {
+    let reviews = [];
+    try {
+      const { data } = await supabaseClient.from('reviews').select('*').order('created_at', { ascending: false });
+      if (data && data.length) reviews = data;
+    } catch (e) { /* table may not exist yet */ }
     const grid = document.getElementById('reviewsGrid');
-    const addBtn = document.getElementById('addReviewBtn');
-    document.querySelectorAll('.user-review-card').forEach(el => el.remove());
-    getUserReviews().forEach(r => {
+    grid.innerHTML = '';
+
+    const items = reviews.length ? reviews : DEFAULT_REVIEWS;
+    items.forEach(r => {
       const card = document.createElement('div');
-      card.className = 'user-review-card bg-card border border-ink/10 rounded-3xl p-6';
+      card.className = 'bg-card border border-ink/10 rounded-3xl p-6';
       card.innerHTML = `
-        <div class="text-gold text-sm mb-3">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
+        <div class="text-gold text-sm mb-3">${'★'.repeat(r.stars || 5)}${'☆'.repeat(5 - (r.stars || 5))}</div>
         <p class="text-ink/70 text-sm mb-4">"${r.text}"</p>
         <div class="text-sm font-medium">— ${r.name}</div>
       `;
-      grid.insertBefore(card, addBtn);
+      grid.appendChild(card);
+    });
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'border-2 border-dashed border-ink/20 rounded-3xl p-6 flex flex-col items-center justify-center gap-2 text-ink/50 hover:border-olive hover:text-olive transition-colors min-h-[160px]';
+    addBtn.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="text-sm font-medium">Add your review</span>
+    `;
+    addBtn.addEventListener('click', openReviewModal);
+    grid.appendChild(addBtn);
+
+    document.getElementById('reviewCount').textContent = reviews.length || 62;
+  }
+
+  function openReviewModal() {
+    const user = getCurrentUser();
+    user.then(u => {
+      if (!u) {
+        showToast('Please login to add a review');
+        setTimeout(() => { window.location.href = getSitePageUrl('login.html'); }, 900);
+        return;
+      }
+      document.getElementById('reviewModal').classList.remove('hidden');
     });
   }
-  renderUserReviews();
 
   function updateStarPicker() {
     document.querySelectorAll('.star-btn').forEach(btn => {
@@ -557,30 +597,30 @@
   });
   updateStarPicker();
 
-  document.getElementById('addReviewBtn').addEventListener('click', () => {
-    document.getElementById('reviewModal').classList.remove('hidden');
-  });
   document.getElementById('cancelReviewBtn').addEventListener('click', () => {
     document.getElementById('reviewModal').classList.add('hidden');
   });
-  document.getElementById('reviewForm').addEventListener('submit', (e) => {
+
+  document.getElementById('reviewForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const reviews = getUserReviews();
-    reviews.unshift({
-      name: document.getElementById('reviewName').value,
-      text: document.getElementById('reviewText').value,
-      stars: selectedStars
-    });
-    localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+    const name = document.getElementById('reviewName').value;
+    const text = document.getElementById('reviewText').value;
+    const btn = document.getElementById('submitReviewBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    const { error } = await supabaseClient.from('reviews').insert({ name, rating: selectedStars, text });
+    btn.disabled = false;
+    btn.textContent = 'Submit';
+    if (error) { alert('Could not submit review: ' + error.message); return; }
     document.getElementById('reviewForm').reset();
     selectedStars = 5;
     updateStarPicker();
     document.getElementById('reviewModal').classList.add('hidden');
-    renderUserReviews();
     showToast('Thanks for your review!');
+    loadReviews();
   });
 
-  // ---- Lifestyle photo reel: auto-advances like a story/reel ----
+  // ---- Lifestyle photo reel ----
   const reelPhotos = [
     { src: 'images/salad-pour.jpg', caption: 'Finishing a fresh salad' },
     { src: 'images/stirfry-pour.jpg', caption: 'A splash into the stir-fry' },
@@ -621,11 +661,12 @@
     goToReelSlide((reelIndex + 1) % reelPhotos.length);
   }, 3200);
 
-  // Pause auto-advance while the user is interacting with dots, resume after
   document.getElementById('reel').addEventListener('mouseenter', () => clearInterval(reelTimer));
   document.getElementById('reel').addEventListener('mouseleave', () => {
     reelTimer = setInterval(() => goToReelSlide((reelIndex + 1) % reelPhotos.length), 3200);
   });
+
+  loadReviews();
 </script>
 
 </body>

@@ -61,6 +61,10 @@
         <div>
           <label class="text-sm font-medium block mb-2">Delivery address</label>
           <textarea id="custAddress" required rows="3" class="w-full border border-ink/20 rounded-2xl px-5 py-3 bg-white outline-none focus:border-olive resize-none"></textarea>
+          <button type="button" id="useLocationBtn" class="mt-2 text-sm font-medium text-ink/60 hover:text-rust inline-flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Use my current location
+          </button>
         </div>
         <div>
           <label class="text-sm font-medium block mb-2">Pincode</label>
@@ -114,10 +118,37 @@
       `<div class="flex justify-between text-sm"><span>${i.qty} × ${i.oilName} (${i.size})</span><span>₹ ${i.price * i.qty}</span></div>`
     ).join('') + `<div class="flex justify-between font-semibold border-t border-ink/10 pt-2 mt-2"><span>Total</span><span>₹ ${total}</span></div>`;
 
-    // Pre-fill name/email if available
-    const meta = user.user_metadata || {};
-    if (meta.full_name || meta.name) document.getElementById('custName').value = meta.full_name || meta.name;
+    // Pre-fill name/address from saved profile (or logged-in metadata)
+    const profile = await getProfile();
+    if (profile) {
+      if (profile.name) document.getElementById('custName').value = profile.name;
+      if (profile.phone) document.getElementById('custPhone').value = profile.phone;
+      if (profile.address) document.getElementById('custAddress').value = profile.address;
+      if (profile.pincode) document.getElementById('custPincode').value = profile.pincode;
+    } else {
+      const meta = user.user_metadata || {};
+      if (meta.full_name || meta.name) document.getElementById('custName').value = meta.full_name || meta.name;
+    }
   }
+
+  document.getElementById('useLocationBtn').addEventListener('click', () => {
+    if (!navigator.geolocation) { showToast('Location not available on this device'); return; }
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const { latitude, longitude } = pos.coords;
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+        const data = await res.json();
+        const addr = data.address || {};
+        const parts = [addr.road, addr.suburb || addr.neighbourhood, addr.city || addr.town || addr.county, addr.state].filter(Boolean);
+        document.getElementById('custAddress').value = parts.join(', ');
+        if (addr.postcode) document.getElementById('custPincode').value = addr.postcode;
+        showToast('Location filled — please verify');
+      } catch (err) {
+        document.getElementById('custAddress').value = `${latitude}, ${longitude}`;
+        showToast('Location filled — please verify');
+      }
+    }, () => showToast('Could not get your location'));
+  });
 
   document.getElementById('shippingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -131,9 +162,19 @@
 
     try {
       // Create the order
+      const orderData = {
+        user_id: user.id,
+        status: 'placed',
+        total,
+        email: user.email,
+        name: document.getElementById('custName').value.trim(),
+        phone: document.getElementById('custPhone').value.trim(),
+        address: document.getElementById('custAddress').value.trim(),
+        pincode: document.getElementById('custPincode').value.trim()
+      };
       const { data: order, error: orderError } = await supabaseClient
         .from('orders')
-        .insert({ user_id: user.id, status: 'placed', total })
+        .insert(orderData)
         .select()
         .single();
       if (orderError) throw orderError;
