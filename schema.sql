@@ -118,6 +118,16 @@ create policy "Authenticated users can add reviews"
   on reviews for insert
   with check (auth.role() = 'authenticated');
 
+-- Seed a few good reviews so the homepage review box isn't empty.
+insert into reviews (id, name, rating, text) values
+  ('11111111-1111-4111-8111-111111111111', 'Priya R.', 5, 'Tastes exactly like the oil my grandmother used to press at home. Rich aroma, not refined-tasting at all.'),
+  ('22222222-2222-4222-8222-222222222222', 'Karthik M.', 5, 'The gingelly oil is fantastic for cooking and head massage both. Ordering the 5L can from now on.'),
+  ('33333333-3333-4333-8333-333333333333', 'Divya S.', 5, 'Coconut oil doesn''t have that sharp refined smell — genuinely cold-pressed, you can tell.'),
+  ('44444444-4444-4444-8444-444444444444', 'Rajesh K.', 5, 'Switched from supermarket oil to Swaram groundnut. Food smells and tastes fresher, and my family noticed the difference within the first week.'),
+  ('55555555-5555-4555-8555-555555555555', 'Meena R.', 4, 'Delivery was quick and the bottle was neatly packed. The oil is so light and pure — perfect for everyday cooking.'),
+  ('66666666-6666-4666-8666-666666666666', 'Lakshmi N.', 5, 'I use the 5L can at my tiffin centre. Consistent quality batch after batch, and customers can taste the difference.')
+on conflict (id) do nothing;
+
 -- ============================================
 -- Delivery details on orders (name, phone,
 -- address) so the admin can deliver.

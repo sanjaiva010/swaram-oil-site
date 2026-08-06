@@ -559,7 +559,10 @@
   const DEFAULT_REVIEWS = [
     { name: 'Priya R.', stars: 5, text: 'Tastes exactly like the oil my grandmother used to press at home. Rich aroma, not refined-tasting at all.' },
     { name: 'Karthik M.', stars: 5, text: 'The gingelly oil is fantastic for cooking and head massage both. Ordering the 5L can from now on.' },
-    { name: 'Divya S.', stars: 5, text: 'Coconut oil doesn\'t have that sharp refined smell — genuinely cold-pressed, you can tell.' }
+    { name: 'Divya S.', stars: 5, text: 'Coconut oil doesn\'t have that sharp refined smell — genuinely cold-pressed, you can tell.' },
+    { name: 'Rajesh K.', stars: 5, text: 'Switched from supermarket oil to Swaram groundnut. Food smells and tastes fresher, and my family noticed the difference within the first week.' },
+    { name: 'Meena R.', stars: 4, text: 'Delivery was quick and the bottle was neatly packed. The oil is so light and pure — perfect for everyday cooking.' },
+    { name: 'Lakshmi N.', stars: 5, text: 'I use the 5L can at my tiffin centre. Consistent quality batch after batch, and customers can taste the difference.' }
   ];
 
   async function loadReviews() {
@@ -685,6 +688,33 @@
   document.getElementById('reel').addEventListener('mouseenter', () => clearInterval(reelTimer));
   document.getElementById('reel').addEventListener('mouseleave', () => {
     reelTimer = setInterval(() => goToReelSlide((reelIndex + 1) % reelPhotos.length), 3200);
+  });
+
+  // Swipe support — change slide by dragging a finger left/right
+  let touchStartX = null;
+  let touchStartY = null;
+  const reelEl = document.getElementById('reel');
+  reelEl.addEventListener('touchstart', (e) => {
+    const t = e.touches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+  }, { passive: true });
+  reelEl.addEventListener('touchmove', (e) => {
+    if (touchStartX !== null && Math.abs(e.touches[0].clientX - touchStartX) > 40) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  reelEl.addEventListener('touchend', (e) => {
+    if (touchStartX === null) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+    touchStartX = null;
+    touchStartY = null;
+    if (Math.abs(dx) < 50) return;
+    if (Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) goToReelSlide((reelIndex + 1) % reelPhotos.length);
+    else goToReelSlide((reelIndex - 1 + reelPhotos.length) % reelPhotos.length);
   });
 
   loadReviews();
