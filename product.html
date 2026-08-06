@@ -76,7 +76,7 @@
   <!-- Gallery -->
   <div>
     <div class="rounded-3xl h-[420px] mb-4 overflow-hidden relative bg-card border border-ink/10">
-      <img id="mainImage" src="images/groundnut-1l.jpeg" alt="Swaram oil bottle" class="absolute inset-0 w-full h-full object-contain p-6 rise" style="animation-duration:.4s">
+      <img id="mainImage" src="images/groundnut-1l.jpeg" alt="Swaram oil bottle" data-keepbg class="absolute inset-0 w-full h-full object-cover rise" style="animation-duration:.4s">
     </div>
     <div class="flex gap-3">
       <button class="oil-thumb rounded-xl border-2 border-olive p-2 bg-card" data-oil="groundnut">
@@ -180,21 +180,21 @@
   const oilData = {
     groundnut: { name: 'Groundnut Oil', tamil: 'வாகை மரச்செக்கு கடலை எண்ணெய்',
       sizes: {
-        '500ML': { price: 170, img: getSwaramImage('images/groundnut-500ml.jpeg') },
-        '1L':    { price: 330, img: getSwaramImage('images/groundnut-1l.jpeg') },
-        '5L':    { price: 1600, img: getSwaramImage('images/groundnut-5l.jpeg') }
+        '500ML': { price: 170, img: 'images/groundnut-500ml.jpeg' },
+        '1L':    { price: 330, img: 'images/groundnut-1l.jpeg' },
+        '5L':    { price: 1600, img: 'images/groundnut-5l.jpeg' }
       } },
     coconut: { name: 'Coconut Oil', tamil: 'வாகை மரச்செக்கு தேங்காய் எண்ணெய்',
       sizes: {
-        '200ML': { price: 90, img: getSwaramImage('images/coconut-500ml.jpeg') },
-        '500ML': { price: 200, img: getSwaramImage('images/coconut-500ml.jpeg') },
-        '1L':    { price: 400, img: getSwaramImage('images/coconut-1l.jpeg') }
+        '200ML': { price: 90, img: 'images/coconut-500ml.jpeg' },
+        '500ML': { price: 200, img: 'images/coconut-500ml.jpeg' },
+        '1L':    { price: 400, img: 'images/coconut-1l.jpeg' }
       } },
     gingelly: { name: 'Gingelly Oil', tamil: 'வாகை மரச்செக்கு நல்லெண்ணெய்',
       sizes: {
-        '200ML': { price: 100, img: getSwaramImage('images/gingelly-500ml.jpeg') },
-        '500ML': { price: 230, img: getSwaramImage('images/gingelly-500ml.jpeg') },
-        '1L':    { price: 450, img: getSwaramImage('images/gingelly-5l.jpeg') }
+        '200ML': { price: 100, img: 'images/gingelly-500ml.jpeg' },
+        '500ML': { price: 230, img: 'images/gingelly-500ml.jpeg' },
+        '1L':    { price: 450, img: 'images/gingelly-5l.jpeg' }
       } }
   };
 
